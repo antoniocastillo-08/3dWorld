@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Printer;
-
+use Illuminate\Support\Facades\File;
 class PrinterSeeder extends Seeder
 {
     /**
@@ -12,51 +12,19 @@ class PrinterSeeder extends Seeder
      */
     public function run(): void
     {
-        $printers = [
-            [
-                'name' => 'Ender 3',
-                'model' => 'Ender',
-                'type' => 'FDM',
-                'brand' => 'Creality',
-                'print_volume' => '220x220x250 mm',
-                'description' => 'Impresora 3D de alta precisión para principiantes.',
-            ],
-            [
-                'name' => 'Ender 3 V3 SE',
-                'model' => 'Ender',
-                'type' => 'FDM',
-                'brand' => 'Creality',
-                'print_volume' => '220x220x250 mm',
-                'description' => 'Impresora 3D de alta precisión para principiantes.',
-            ],
-            [
-                'name' => 'Ender 3 V3 KE',
-                'model' => 'Ender',
-                'type' => 'FDM',
-                'brand' => 'Creality',
-                'print_volume' => '220x220x250 mm',
-                'description' => 'Impresora 3D de alta precisión para principiantes.',
-            ],
-            [
-                'name' => 'Ultimaker S5',
-                'model' => 'S5',
-                'type' => 'FDM',
-                'brand' => 'Ultimaker',
-                'print_volume' => '330x240x300 mm',
-                'description' => 'Impresora 3D profesional para prototipos industriales.',
-            ],
-            [
-                'name' => 'Anycubic Photon Mono',
-                'model' => 'Photon Mono',
-                'type' => 'Resina',
-                'brand' => 'Anycubic',
-                'print_volume' => '130x80x165 mm',
-                'description' => 'Impresora 3D de resina para detalles finos.',
-            ],
-        ];
+    // Ruta al archivo JSON
+    $jsonPath = database_path('data/printers.json');
 
-        foreach ($printers as $printer) {
-            Printer::create($printer);
-        }
+    // Leer y decodificar el archivo JSON
+    if (File::exists($jsonPath)) {
+      $printers = json_decode(File::get($jsonPath), true);
+
+      // Insertar cada impresora en la base de datos
+      foreach ($printers as $printer) {
+          Printer::create($printer);
+      }
+    } else {
+      $this->command->error("El archivo printers.json no existe en la ruta: $jsonPath");
+    }
     }
 } 
