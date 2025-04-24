@@ -19,7 +19,6 @@ class PrinterSeeder extends Seeder
                 'type' => 'FDM',
                 'brand' => 'Creality',
                 'print_volume' => '220x220x250 mm',
-                'status' => 'Available',
                 'description' => 'Impresora 3D de alta precisión para principiantes.',
             ],
             [
@@ -28,7 +27,6 @@ class PrinterSeeder extends Seeder
                 'type' => 'FDM',
                 'brand' => 'Creality',
                 'print_volume' => '220x220x250 mm',
-                'status' => 'On Use',
                 'description' => 'Impresora 3D de alta precisión para principiantes.',
             ],
             [
@@ -37,7 +35,6 @@ class PrinterSeeder extends Seeder
                 'type' => 'FDM',
                 'brand' => 'Creality',
                 'print_volume' => '220x220x250 mm',
-                'status' => 'Not Available',
                 'description' => 'Impresora 3D de alta precisión para principiantes.',
             ],
             [
@@ -46,7 +43,6 @@ class PrinterSeeder extends Seeder
                 'type' => 'FDM',
                 'brand' => 'Ultimaker',
                 'print_volume' => '330x240x300 mm',
-                'status' => 'On Use',
                 'description' => 'Impresora 3D profesional para prototipos industriales.',
             ],
             [
@@ -55,7 +51,6 @@ class PrinterSeeder extends Seeder
                 'type' => 'Resina',
                 'brand' => 'Anycubic',
                 'print_volume' => '130x80x165 mm',
-                'status' => 'Not Available',
                 'description' => 'Impresora 3D de resina para detalles finos.',
             ],
         ];

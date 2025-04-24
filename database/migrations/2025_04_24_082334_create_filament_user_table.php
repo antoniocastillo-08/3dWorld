@@ -11,23 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('printers', function (Blueprint $table) {
+        Schema::create('filament_user', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('model');
-            $table->string('type');
-            $table->string('brand');
-            $table->string('print_volume');
-            $table->string('description')->nullable();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('filament_id')->constrained('filaments')->onDelete('cascade');
+            $table->integer('quantity')->unsigned();
             $table->timestamps();
         });
     }
 
-    /** 
+    /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('printers');
+        Schema::dropIfExists('filament_user');
     }
 };

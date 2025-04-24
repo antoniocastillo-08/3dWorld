@@ -13,4 +13,8 @@ class Printer extends Model
     public function users(){
         return $this->belongsToMany('App\Models\User', 'print_user', 'printer_id','user_id');
     }
+    public function filaments()
+    {
+    return $this->belongsToMany(Filament::class, 'filament_printer');
+    }
 }

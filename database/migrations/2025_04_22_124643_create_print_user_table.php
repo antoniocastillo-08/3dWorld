@@ -12,6 +12,7 @@ class CreatePrintUserTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('printer_id')->constrained()->onDelete('cascade');
+            $table->enum('status', ['Available', 'On Use', 'Not Available'])->default('Available');
             $table->timestamps();
         });
     }

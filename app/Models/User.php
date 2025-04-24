@@ -47,5 +47,13 @@ class User extends Authenticatable
     }
     public function printers(){
         return $this->belongsToMany('App\Models\Printer', 'print_user', 'user_id','printer_id');
+    }
+    public function favoriteModels()
+    {
+    return $this->belongsToMany(Model3d::class, 'model3d_user');
+    }   
+    public function filaments()
+    {
+    return $this->belongsToMany(Filament::class, 'filament_user')->withPivot('quantity');
     }   
 }
