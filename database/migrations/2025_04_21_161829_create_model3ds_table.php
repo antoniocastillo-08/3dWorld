@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('model3ds', function (Blueprint $table) {
             $table->id();
+            $table->string('thingiverse_id')->unique(); // ID del modelo en Thingiverse
             $table->string('name');
-            $table->string('description');
-            $table->string('file');
-            $table->string('image')->nullable();
+            $table->text('description')->nullable(); // Cambiar a text para descripciones largas
+            $table->string('author')->nullable(); // Autor del modelo
+            $table->string('file')->nullable(); // Ruta al archivo descargado
+            $table->string('image')->nullable(); // Imagen del modelo
+            $table->string('url')->nullable(); // URL del modelo en Thingiverse
             $table->timestamps();
         });
     }

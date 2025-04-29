@@ -9,6 +9,15 @@ class Model3d extends Model
 {
     /** @use HasFactory<\Database\Factories\Model3dFactory> */
     use HasFactory;
+    protected $fillable = [
+        'thingiverse_id',
+        'name',
+        'description',
+        'author',
+        'url',
+        'image',
+        'file',
+    ];
     public function users(){
     return $this->belongsToMany(User::class, 'model3d_user');
     }

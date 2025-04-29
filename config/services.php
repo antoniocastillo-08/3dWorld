@@ -35,4 +35,8 @@ return [
         ],
     ],
 
+    'thingiverse' => [
+        'app_token' => env('THINGIVERSE_APP_TOKEN'),
+    ],
+
 ];
