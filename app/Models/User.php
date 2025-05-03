@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -38,6 +39,8 @@ class User extends Authenticatable
      *
      * @return array<string, string>
      */
+
+     
     protected function casts(): array
     {
         return [
@@ -56,4 +59,13 @@ class User extends Authenticatable
     {
     return $this->belongsToMany(Filament::class, 'filament_user')->withPivot('quantity');
     }   
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            // Asignar el rol 'user' por defecto a los nuevos usuarios
+            if ($user->roles->isEmpty()) {
+                $user->assignRole('user');
+            }
+        });
+    }
 }

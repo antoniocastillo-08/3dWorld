@@ -13,7 +13,10 @@ class PrinterController extends Controller
      */
     public function index()
     {
-        //
+        $printers = Printer::all();
+        return view('printers.index', [
+            'list_printers' => $printers,
+        ]);
     }
 
     /**
