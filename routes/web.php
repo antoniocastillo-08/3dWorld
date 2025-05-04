@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PrinterController;
+use App\Http\Controllers\Model3dController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -8,27 +9,27 @@ use Inertia\Inertia;
 use App\Models\Printer;
 use App\Models\Model3d;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', [Model3dController::class, 'index'])->name('models3d.index');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/printers', [PrinterController::class, 'index'])->name('printers.index');
-});
+
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
+
+
+
+Route::middleware('auth')->group(function () {
+    // Ruta para listar impresoras (accesible para todos los usuarios autenticados)
+    Route::get('/printers', [PrinterController::class, 'index'])->name('printers.index');
+
+    // Rutas para editar y eliminar impresoras (solo para administradores)
+    Route::middleware('role:admin')->group(function () {
+        Route::get('/printers/{printer}/edit', [PrinterController::class, 'edit'])->name('printers.edit');
+        Route::delete('/printers/{printer}', [PrinterController::class, 'destroy'])->name('printers.destroy');
+    });
+});
 
 require __DIR__.'/auth.php';

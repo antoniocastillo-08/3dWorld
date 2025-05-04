@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreModel3dRequest;
 use App\Http\Requests\UpdateModel3dRequest;
 use App\Models\Model3d;
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class Model3dController extends Controller
 {
@@ -13,9 +15,11 @@ class Model3dController extends Controller
      */
     public function index()
     {
-        //
+        $models = Model3d::all(); // O usa paginación si es necesario
+        return view('models3d.index', [
+            'list_models' => $models,
+        ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */

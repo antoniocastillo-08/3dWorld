@@ -59,6 +59,7 @@ class ImportarModelos3D extends Command
                 $thingId = $modelo['id'];
                 $detailsResponse = Http::withToken($token)->get("https://api.thingiverse.com/things/{$thingId}");
 
+                
                 if ($detailsResponse->successful()) {
                     $details = $detailsResponse->json();
                     if (isset($details['files_url'])) {
@@ -68,20 +69,23 @@ class ImportarModelos3D extends Command
                             foreach ($files as $file) {
                                 if (str_ends_with($file['name'], '.stl')) {
                                     $this->info("Descargando archivo STL: {$file['name']}...");
-
+                
                                     // Descargar el archivo STL usando streams
                                     $stlResponse = Http::withToken($token)->get($file['download_url'], ['stream' => true]);
                                     if ($stlResponse->successful()) {
                                         $filePath = "{$folderName}/{$file['name']}";
                                         $stream = $stlResponse->toPsrResponse()->getBody();
                                         Storage::disk('public')->put($filePath, $stream);
+                
+                                        // Detener el bucle después de descargar el primer archivo STL
+                                        break;
                                     }
                                 }
                             }
                         }
                     }
                 }
-
+                
                 // Actualizar la ruta de la carpeta en la base de datos
                 $model->update(['file' => $folderName]);
             }
