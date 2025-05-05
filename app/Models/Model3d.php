@@ -9,16 +9,14 @@ class Model3d extends Model
 {
     /** @use HasFactory<\Database\Factories\Model3dFactory> */
     use HasFactory;
-    protected $fillable = [
-        'thingiverse_id',
-        'name',
-        'description',
-        'author',
-        'url',
-        'image',
-        'file',
-    ];
+    protected $fillable = ['name', 'description', 'author', 'file', 'image'];
+    
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author'); // 'author' es la clave foránea
+    }
     public function users(){
     return $this->belongsToMany(User::class, 'model3d_user');
     }
+
 }

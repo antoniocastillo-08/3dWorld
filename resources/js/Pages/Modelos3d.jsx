@@ -1,5 +1,5 @@
 import React from 'react';
-import Card from '../Components/Card';
+import Card from '../Components/Models3d/Card';
 
 export default function Modelos3D({ models }) {
   return (
@@ -8,7 +8,9 @@ export default function Modelos3D({ models }) {
       <div className="flex flex-wrap gap-4">
         {models.map((model) => (
           <Card key={model.id} name={model.name} image={model.image} />
+          
         ))}
+        
       </div>
     </div>
   );

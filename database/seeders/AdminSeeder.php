@@ -33,7 +33,7 @@ class AdminSeeder extends Seeder
         $adminRole->syncPermissions($permissions);
 
         // Crear el usuario administrador
-        $admin = User::firstOrCreate(
+        $admin = User::updateOrCreate(
             ['email' => 'admin@gmail.com'], // Evitar duplicados
             [
                 'name' => 'CastilloAdmin',

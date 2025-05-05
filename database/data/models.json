@@ -1,0 +1,9 @@
+[
+    {
+        "name": "Benchy",
+        "description": "El famoso modelo 3D de prueba para impresoras 3D.",
+        "author": 1,
+        "file": "3DBenchy.stl",
+        "image": "benchy_preview.jpg"
+    }
+]
