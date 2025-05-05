@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
+@extends("templates.plantilla")
+@section("title", "Modelos 3D")
+@section("contenido")
+    <h1>Modelos 3D</h1>
     <ul>
-        @foreach($list_models as $models)
-            <li><img src="{{$models->image}}">{{$models->name}}</li>
+        @foreach($list_models as $model)
+            <li><img src="{{$model->image}}">{{$model->name}}</li>
         @endforeach
     </ul>
-</body>
-</html>
+@endsection

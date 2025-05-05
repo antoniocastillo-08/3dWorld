@@ -16,8 +16,8 @@ class Model3dController extends Controller
     public function index()
     {
         $models = Model3d::all(); // O usa paginación si es necesario
-        return view('models3d.index', [
-            'list_models' => $models,
+        return Inertia::render('Modelos3d', [
+            'models' => $models
         ]);
     }
     /**

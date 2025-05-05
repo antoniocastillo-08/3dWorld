@@ -9,7 +9,7 @@ use Inertia\Inertia;
 use App\Models\Printer;
 use App\Models\Model3d;
 
-Route::get('/', [Model3dController::class, 'index'])->name('models3d.index');
+Route::get('/', action: [Model3dController::class, 'index'])->name('models3d.index');
 
 
 
