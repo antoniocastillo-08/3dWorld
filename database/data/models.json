@@ -5,5 +5,12 @@
         "author": 1,
         "file": "3DBenchy.stl",
         "image": "benchy_preview.jpg"
+    },
+    {
+        "name": "3dPrinterTest",
+        "description": "El famoso modelo 3D de 3D.",
+        "author": 1,
+        "file": "3D_Printer_test.stl",
+        "image": "3dprinters_test.jpg"
     }
 ]

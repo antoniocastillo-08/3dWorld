@@ -9,9 +9,9 @@ use Inertia\Inertia;
 use App\Models\Printer;
 use App\Models\Model3d;
 
-Route::get('/', action: [Model3dController::class, 'index'])->name('models3d.index');
+Route::get('/', [Model3dController::class, 'index'])->name('models3d.index');
 
-
+Route::get('models3d/{model3d}', [Model3dController::class, 'show'])->name('models.show');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

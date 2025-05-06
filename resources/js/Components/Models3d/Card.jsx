@@ -1,25 +1,32 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from '@inertiajs/react';
 
-const Card = ({ name, image }) => {
+
+const Card = ({ name, image, stlFile, url }) => {
   return (
     <StyledWrapper>
-      <div className="card">
-        <div className="first-content">
-          <img src={image} alt={name} className="image-full" />
+      <Link href={url} className="card-link">
+        <div className="card">
+          <div className="first-content">
+            <img src={image} alt={name} className="image-full" />
+          </div>
+          <div className="second-content">
+            <img src={image} alt={name} className="image-small" />
+            <span className="name">{name}</span>
+            <a href={stlFile} download className="download-button">
+              Descargar STL
+            </a>
+          </div>
         </div>
-        <div className="second-content">
-          <img src={image} alt={name} className="image-small" />
-          <span className="name">{name}</span>
-        </div>
-      </div>
+      </Link>
     </StyledWrapper>
   );
 };
 
 const StyledWrapper = styled.div`
   .card {
-    width: 220px;
+    width: 280px;
     height: 324px;
     background: rgb(103, 225, 255);
     transition: all 0.4s;
@@ -81,7 +88,7 @@ const StyledWrapper = styled.div`
   }
 
   .image-small {
-    width: 100px;
+    width: 180px;
     height: 150px;
     object-fit: cover;
     border-radius: 10%;

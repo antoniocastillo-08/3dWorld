@@ -41,7 +41,9 @@ class Model3dController extends Controller
      */
     public function show(Model3d $model3d)
     {
-        //
+        return Inertia::render('Modelo3dIndividual', [
+        'model' => $model3d
+    ]);
     }
 
     /**
