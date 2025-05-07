@@ -11,7 +11,15 @@ use App\Models\Model3d;
 
 Route::get('/', [Model3dController::class, 'index'])->name('models3d.index');
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/models3d/upload', [Model3dController::class, 'create'])->name('models3d.upload');
+    Route::post('/models3d', [Model3dController::class, 'store'])->name('models3d.store');
+});
 Route::get('models3d/{model3d}', [Model3dController::class, 'show'])->name('models.show');
+
+
+
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

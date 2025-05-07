@@ -15,12 +15,13 @@ const Viewer = ({ stlFile }) => {
   }
 
   return (
-    <Canvas style={{ height: '500px', width: '50%' }}>
+    <Canvas style={{ height: '500px', width: '30%', border: '3px solid black', borderRadius: '20px' }}
+    camera={{ position: [0, 0, 80], fov: 75 }}>
       <Suspense fallback={<div>Cargando modelo...</div>}>
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 10]} />
         <mesh geometry={geometry}>
-          <meshStandardMaterial color="blue" />
+          <meshStandardMaterial color="red" />
         </mesh>
       </Suspense>
       <OrbitControls />

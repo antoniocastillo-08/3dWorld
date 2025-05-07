@@ -26,8 +26,8 @@ const Card = ({ name, image, stlFile, url }) => {
 
 const StyledWrapper = styled.div`
   .card {
-    width: 280px;
-    height: 324px;
+    width: 250px;
+    height: 294px;
     background: rgb(103, 225, 255);
     transition: all 0.4s;
     border-radius: 10px;

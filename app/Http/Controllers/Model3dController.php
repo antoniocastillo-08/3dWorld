@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateModel3dRequest;
 use App\Models\Model3d;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class Model3dController extends Controller
 {
@@ -25,17 +27,52 @@ class Model3dController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('UploadModel', [
+            'model' => new Model3d()
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreModel3dRequest $request)
+    public function store(Request $request)
     {
-        //
+        // Crea una nueva instancia del modelo
+        $model3d = new Model3d();
+
+        // Asigna los datos del formulario
+        $model3d->name = $request->name;
+        $model3d->description = $request->description;
+
+        // Asocia el modelo con el usuario autenticado
+        $model3d->author = Auth::id();
+
+        // Maneja la subida de la imagen
+        if ($request->hasFile('image')) {
+            $model3d->image = $request->file('image')->storeAs(
+                $request->name, // Crea una subcarpeta con el nombre del modelo
+                $request->file('image')->getClientOriginalName(),
+                'public'
+            );
+        }
+
+        // Maneja la subida del archivo STL
+        if ($request->hasFile('file')) {
+            $model3d->file = $request->file('file')->storeAs(
+                $request->name, // Crea una subcarpeta con el nombre del modelo
+                $request->file('file')->getClientOriginalName(),
+                'public'
+            );
+        }
+
+        // Guarda el modelo en la base de datos
+        $model3d->save();
+
+        // Redirige con un mensaje de éxito
+        return redirect()->route('models3d.index')->with('success', 'Modelo 3D subido exitosamente.');
     }
 
+    
     /**
      * Display the specified resource.
      */
