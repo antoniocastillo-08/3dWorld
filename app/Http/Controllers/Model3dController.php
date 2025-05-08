@@ -18,18 +18,14 @@ class Model3dController extends Controller
     public function index()
     {
         $models = Model3d::all(); // O usa paginación si es necesario
-        return Inertia::render('Modelos3d', [
-            'models' => $models
-        ]);
+        return view('welcome', compact('models'));
     }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return Inertia::render('UploadModel', [
-            'model' => new Model3d()
-        ]);
+        return view('models3d.upload');
     }
 
     /**
@@ -78,9 +74,7 @@ class Model3dController extends Controller
      */
     public function show(Model3d $model3d)
     {
-        return Inertia::render('Modelo3dIndividual', [
-        'model' => $model3d
-    ]);
+        
     }
 
     /**
