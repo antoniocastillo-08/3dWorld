@@ -25,7 +25,7 @@ class Model3dController extends Controller
      */
     public function create()
     {
-        return view('models3d.upload');
+        return view('models3d.create');
     }
 
     /**
@@ -46,7 +46,7 @@ class Model3dController extends Controller
         // Maneja la subida de la imagen
         if ($request->hasFile('image')) {
             $model3d->image = $request->file('image')->storeAs(
-                $request->name, // Crea una subcarpeta con el nombre del modelo
+                'models/' . $request->name,
                 $request->file('image')->getClientOriginalName(),
                 'public'
             );
@@ -55,7 +55,7 @@ class Model3dController extends Controller
         // Maneja la subida del archivo STL
         if ($request->hasFile('file')) {
             $model3d->file = $request->file('file')->storeAs(
-                $request->name, // Crea una subcarpeta con el nombre del modelo
+                'models/'.$request->name, // Crea una subcarpeta con el nombre del modelo
                 $request->file('file')->getClientOriginalName(),
                 'public'
             );
@@ -72,8 +72,9 @@ class Model3dController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Model3d $model3d)
+    public function show(Model3d $model)
     {
+        return view('models3d.show', ['model' => $model]);
         
     }
 

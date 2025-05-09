@@ -1,17 +1,18 @@
 @extends('app')
 
 @section('content')
-<div class="container-fluid justify-center items-center min-h-screen bg-danger">
-    <div class="row">
+<div class="container-fluid justify-center items-center min-h-screen">
+    <div class="row p-2 bg-info">
         
     @foreach ($models as $model)
         <div class="card col-1 mx-2">
+            <a href="{{ route('models3d.show', $model->id) }}" class="card__link">
             <div class="card__shine"></div>
             <div class="card__glow"></div>
             <div class="card__content">
                 <div style="--bg-color: #a78bfa" class="card__image">
                     @if ($model->image)
-                        <img src="{{ $model->image }}" alt="{{ $model->name }}" class="w-full h-full object-cover rounded-md">
+                        <img src="{{ asset('storage/' . $model->image) }}" alt="{{ $model->name }}" class="w-full h-full object-cover rounded-md">
                     @else
                         <p>No image available</p>
                     @endif
@@ -29,12 +30,13 @@
                                 stroke-width="2"
                                 stroke="currentColor"
                                 d="M4 12H20M12 4V20"
-                                fill="currentColor"
+                                fill="black"
                             ></path>
                         </svg>
                     </div>
                 </div>
             </div>
+        </a>
         </div>
     @endforeach
     </div>
