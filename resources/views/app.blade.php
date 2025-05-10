@@ -1,61 +1,84 @@
-<!-- filepath: /home/castillo/3dWorld/resources/views/app.blade.php -->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>@yield('title', config('app.name', '3dWorld'))</title>        
+        <title>@yield('title', config('app.name', '3dWorld'))</title>
+
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.12.1/font/bootstrap-icons.min.css">
-        <!-- Scripts -->
-        @vite(entrypoints: ['resources/js/app.js' ])
+
+        <!-- Tailwind via Vite -->
+        @vite('resources/css/app.css')
     </head>
-    <body class="font-sans antialiased">
-        
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-              <a class="navbar-brand" href="/">3dWorld</a>
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                  @guest
-                    <!-- Mostrar Login y Register si el usuario no está autenticado -->
-                    <li class="nav-item">
-                      <a class="nav-link" href="/login">Login</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/register">Register</a>
-                    </li>
-                  @else
-                    <!-- Mostrar Create y Profile si el usuario está autenticado -->
-                    <li class="nav-item">
-                      <a class="nav-link" href="/models3d/create"><i class="bi bi-plus-circle-fill"></i> Create</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="/profile">Profile</a>
-                    </li>
-                    <!-- Opción para cerrar sesión -->
-                    <li class="nav-item">
-                      <form action="/logout" method="POST" class="d-inline">
-                        @csrf
-                        <button type="submit" class="nav-link btn btn-link text-decoration-none">Logout</button>
-                      </form>
-                    </li>
-                  @endguest
-                </ul>
-              </div>
+    <body class="font-sans antialiased bg-gray-400 text-gray-800">
+
+        <nav class="bg-white border-b border-gray-200 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16 items-center">
+                    <!-- Brand -->
+                    <a href="/" class="text-xl font-semibold text-indigo-600">3dWorld</a>
+
+                    <!-- Mobile menu button -->
+                    <div class="lg:hidden">
+                        <button type="button" class="text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700" id="mobile-menu-toggle">
+                            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Desktop Menu -->
+                    <div class="hidden lg:flex space-x-4 items-center">
+                        @guest
+                            <a href="/login" class="text-gray-700 hover:text-indigo-600 transition">Login</a>
+                            <a href="/register" class="text-gray-700 hover:text-indigo-600 transition">Register</a>
+                        @else
+                            <a href="/models3d/create" class="text-gray-700 hover:text-indigo-600 flex items-center space-x-1">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M8 4a.5.5 0 0 1 .5.5V7h2.5a.5.5 0 0 1 0 1H8.5v2.5a.5.5 0 0 1-1 0V8H5a.5.5 0 0 1 0-1h2.5V4.5A.5.5 0 0 1 8 4z"/>
+                                </svg>
+                                <span>Create</span>
+                            </a>
+                            <a href="/profile" class="text-gray-700 hover:text-indigo-600 transition">Profile</a>
+                            <form action="/logout" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="text-gray-700 hover:text-red-600 transition">Logout</button>
+                            </form>
+                        @endguest
+                    </div>
+                </div>
             </div>
-          </nav>
 
-          @yield('content')
+            <!-- Mobile Menu (hidden by default) -->
+            <div id="mobile-menu" class="lg:hidden hidden px-4 pb-4 space-y-2">
+                @guest
+                    <a href="/login" class="block text-gray-700 hover:text-indigo-600">Login</a>
+                    <a href="/register" class="block text-gray-700 hover:text-indigo-600">Register</a>
+                @else
+                    <a href="/models3d/create" class="block text-gray-700 hover:text-indigo-600">Create</a>
+                    <a href="/profile" class="block text-gray-700 hover:text-indigo-600">Profile</a>
+                    <form action="/logout" method="POST">
+                        @csrf
+                        <button type="submit" class="block text-gray-700 hover:text-red-600">Logout</button>
+                    </form>
+                @endguest
+            </div>
+        </nav>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+        <main class="py-6">
+            @yield('content')
+        </main>
+
+        <!-- Toggle mobile menu -->
+        <script>
+            document.getElementById('mobile-menu-toggle')?.addEventListener('click', function () {
+                const menu = document.getElementById('mobile-menu');
+                menu.classList.toggle('hidden');
+            });
+        </script>
 
     </body>
 </html>
