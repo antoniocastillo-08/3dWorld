@@ -6,6 +6,8 @@
     <div class="min-h-screen py-10 px-4 bg-gradient-to-br from-white to-blue-300">
         <div class="max-w-6xl mx-auto space-y-6">
 
+            
+
             <h1 class="text-3xl font-mono font-bold text-gray-800">{{ $model->name }}</h1>
             <h2 class="text-lg font-mono text-gray-600">
                 Creado por:

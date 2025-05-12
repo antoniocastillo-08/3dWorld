@@ -52,21 +52,36 @@ class Model3dController extends Controller
      */
     public function store(Request $request)
     {
+        // Validación de los datos recibidos
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'nullable|file|max:2048', // Validación básica para imágenes
+            'file' => 'nullable|file|max:512000', // Validación básica para archivos STL
+        ]);
+
+        // Validación personalizada para extensiones
+        if ($request->hasFile('image') && !in_array($request->file('image')->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif'])) {
+            return back()->withErrors(['image' => 'La imagen debe ser un archivo de tipo: jpg, jpeg, png, gif.']);
+        }
+
+        if ($request->hasFile('file') && $request->file('file')->getClientOriginalExtension() !== 'stl') {
+            return back()->withErrors(['file' => 'El archivo debe ser de tipo STL.']);
+        }
+
         // Crea una nueva instancia del modelo
         $model3d = new Model3d();
 
         // Asigna los datos del formulario
         $model3d->name = $request->name;
         $model3d->description = $request->description;
-
-        // Asocia el modelo con el usuario autenticado
         $model3d->author = Auth::id();
 
         // Maneja la subida de la imagen
         if ($request->hasFile('image')) {
             $model3d->image = $request->file('image')->storeAs(
                 'models/' . $request->name,
-                $request->file('image')->getClientOriginalName(),
+                'image.' . $request->file('image')->getClientOriginalExtension(),
                 'public'
             );
         }
@@ -74,8 +89,8 @@ class Model3dController extends Controller
         // Maneja la subida del archivo STL
         if ($request->hasFile('file')) {
             $model3d->file = $request->file('file')->storeAs(
-                'models/' . $request->name, // Crea una subcarpeta con el nombre del modelo
-                $request->file('file')->getClientOriginalName(),
+                'models/' . $request->name,
+                'model.stl',
                 'public'
             );
         }
@@ -83,11 +98,8 @@ class Model3dController extends Controller
         // Guarda el modelo en la base de datos
         $model3d->save();
 
-        // Redirige con un mensaje de éxito
         return redirect()->route('models3d.index')->with('success', 'Modelo 3D subido exitosamente.');
     }
-
-
     /**
      * Display the specified resource.
      */
@@ -119,35 +131,40 @@ class Model3dController extends Controller
     {
         $model = Model3d::findOrFail($id);
 
+        // Validación de los datos recibidos
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|image|mimes:png,jpg,jpeg,gif|max:2048',
-            'file' => 'nullable|mimes:stl|max:10240',
+            'image' => 'nullable|file|max:2048', // Validación básica para imágenes
+            'file' => 'nullable|file|max:512000', // Validación básica para archivos STL
         ]);
 
-        // Ruta actual de la carpeta del modelo
-        $oldFolder = 'models/' . $model->name;
-
-        // Si el nombre del modelo cambia, renombramos la carpeta
-        if ($model->name !== $request->input('name')) {
-            $newFolder = 'models/' . $request->input('name');
-            if (Storage::exists($oldFolder)) {
-                Storage::move($oldFolder, $newFolder);
-            }
-            $model->name = $request->input('name');
+        // Validación personalizada para extensiones
+        if ($request->hasFile('image') && !in_array($request->file('image')->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif'])) {
+            return back()->withErrors(['image' => 'La imagen debe ser un archivo de tipo: jpg, jpeg, png, gif.']);
         }
 
+        if ($request->hasFile('file') && $request->file('file')->getClientOriginalExtension() !== 'stl') {
+            return back()->withErrors(['file' => 'El archivo debe ser de tipo STL.']);
+        }
+
+        // Actualiza los campos básicos
+        $model->name = $request->input('name');
         $model->description = $request->input('description');
+
+        // Manejo de la carpeta del modelo
+        $oldFolder = 'models/' . $model->getOriginal('name');
+        $newFolder = 'models/' . $model->name;
+
+        if ($oldFolder !== $newFolder && Storage::exists($oldFolder)) {
+            Storage::move($oldFolder, $newFolder);
+        }
 
         // Manejo de la imagen
         if ($request->hasFile('image')) {
-            // Elimina la imagen anterior si existe
-            Storage::delete($oldFolder . '/' . $model->image);
-
-            // Guarda la nueva imagen en la carpeta correspondiente
+            Storage::delete($newFolder . '/' . $model->image);
             $model->image = $request->file('image')->storeAs(
-                $oldFolder, // Usa la carpeta actual del modelo
+                $newFolder,
                 'image.' . $request->file('image')->getClientOriginalExtension(),
                 'public'
             );
@@ -155,17 +172,15 @@ class Model3dController extends Controller
 
         // Manejo del archivo STL
         if ($request->hasFile('file')) {
-            // Elimina el archivo STL anterior si existe
-            Storage::delete($oldFolder . '/' . $model->file);
-
-            // Guarda el nuevo archivo STL en la carpeta correspondiente
+            Storage::delete($newFolder . '/' . $model->file);
             $model->file = $request->file('file')->storeAs(
-                $oldFolder, // Usa la carpeta actual del modelo
+                $newFolder,
                 'model.stl',
                 'public'
             );
         }
 
+        // Guarda los cambios en la base de datos
         $model->save();
 
         return redirect()->route('models3d.show', $model->id)->with('success', 'Modelo actualizado correctamente.');
@@ -174,25 +189,25 @@ class Model3dController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id)
-{
-    $model = Model3d::findOrFail($id);
+    {
+        $model = Model3d::findOrFail($id);
 
-    // Verifica si el usuario es el autor o tiene permiso para borrar
-    if (Auth::id() !== $model->author && !Auth::user()->can('delete models')) {
-        abort(403, 'No tienes permiso para eliminar este modelo.');
+        // Verifica si el usuario es el autor o tiene permiso para borrar
+        if (Auth::id() !== $model->author && !Auth::user()->can('delete models')) {
+            abort(403, 'No tienes permiso para eliminar este modelo.');
+        }
+
+        // Ruta de la carpeta del modelo
+        $folder = 'models/' . $model->name;
+
+        // Elimina la carpeta completa si existe
+        if (Storage::exists($folder)) {
+            Storage::deleteDirectory($folder);
+        }
+
+        // Elimina el registro del modelo de la base de datos
+        $model->delete();
+
+        return redirect()->route('models3d.index')->with('success', 'Modelo eliminado correctamente.');
     }
-
-    // Ruta de la carpeta del modelo
-    $folder = 'models/' . $model->name;
-
-    // Elimina la carpeta completa si existe
-    if (Storage::exists($folder)) {
-        Storage::deleteDirectory($folder);
-    }
-
-    // Elimina el registro del modelo de la base de datos
-    $model->delete();
-
-    return redirect()->route('models3d.index')->with('success', 'Modelo eliminado correctamente.');
-}
 }
