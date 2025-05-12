@@ -12,10 +12,11 @@
 
         <!-- Tailwind via Vite -->
         @vite('resources/css/app.css')
+        @vite('resources/js/app.js')
     </head>
-    <body class="font-sans antialiased bg-gray-400 text-gray-800">
+    <body class="font-sans antialiased bg-neutral-30 text-gray-800 flex flex-col min-h-screen">
 
-        <nav class="bg-white border-b border-gray-200 shadow-sm">
+        <nav class="bg-gradient-to-b from-teal-300 to-white border-b border-black shadow-sm">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16 items-center">
                     <!-- Brand -->
@@ -43,10 +44,8 @@
                                 <span>Create</span>
                             </a>
                             <a href="/profile" class="text-gray-700 hover:text-indigo-600 transition">Profile</a>
-                            <form action="/logout" method="POST" class="inline">
-                                @csrf
-                                <button type="submit" class="text-gray-700 hover:text-red-600 transition">Logout</button>
-                            </form>
+                            <a href="/printers" class="block text-gray-700 hover:text-indigo-600">Printers</a>
+
                         @endguest
                     </div>
                 </div>
@@ -60,18 +59,37 @@
                 @else
                     <a href="/models3d/create" class="block text-gray-700 hover:text-indigo-600">Create</a>
                     <a href="/profile" class="block text-gray-700 hover:text-indigo-600">Profile</a>
-                    <form action="/logout" method="POST">
-                        @csrf
-                        <button type="submit" class="block text-gray-700 hover:text-red-600">Logout</button>
-                    </form>
+                    <a href="/printers" class="block text-gray-700 hover:text-indigo-600">Printers</a>
+
                 @endguest
             </div>
         </nav>
 
-        <main class="py-6">
+        <main class="flex-grow">
             @yield('content')
+            
         </main>
+        <footer class="bg-gray-500 py-6 text-white">
+            <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between gap-8 text-center md:text-left">
+                
+                <div class="flex-auto">
+                    <h3 class="font-semibold text-lg mb-2">Contacto</h3>
+                    <p>Email: contacto@3dworld.com</p>
+                    <p>Teléfono: +34 123 456 789</p>
+                </div>
+                
 
+                
+                <div class="flex-auto">
+                    <h3 class="font-semibold text-lg mb-2">Redes Sociales</h3>
+                    <a href="#" class="block hover:underline">Twitter</a>
+                    <a href="#" class="block hover:underline">LinkedIn</a>
+                    <a href="#" class="block hover:underline">Instagram</a>
+                </div>
+        
+            </div>
+        </footer>
+        
         <!-- Toggle mobile menu -->
         <script>
             document.getElementById('mobile-menu-toggle')?.addEventListener('click', function () {

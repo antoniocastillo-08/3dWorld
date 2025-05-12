@@ -9,8 +9,16 @@ Route::get('/', [Model3dController::class, 'index'])->name('models3d.index');
 Route::get('/model3d/{model}', [Model3dController::class, 'show'])->name('models3d.show');
 
 Route::middleware(['auth'])->group(function () {
+    // Crear y guardar modelos
     Route::get('/models3d/create', [Model3dController::class, 'create'])->name('models3d.create');
     Route::post('/models3d/store', [Model3dController::class, 'store'])->name('models3d.store');
+
+    // Editar modelo
+    Route::get('/models3d/{model}/edit', [Model3dController::class, 'edit'])->name('models3d.edit');
+    Route::put('/models3d/{model}', [Model3dController::class, 'update'])->name('models3d.update');
+
+    // Eliminar modelo
+    Route::delete('/models3d/{model}', [Model3dController::class, 'destroy'])->name('models3d.destroy');
 });
 
 

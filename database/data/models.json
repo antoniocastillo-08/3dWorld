@@ -1,14 +1,14 @@
 [
     {
         "name": "Benchy",
-        "description": "El famoso modelo 3D de prueba para impresoras 3D.",
+        "description": "Un modelo 3D icónico diseñado específicamente para probar y calibrar impresoras 3D, evaluando su precisión y calidad de impresión en diversos aspectos técnicos.",
         "author": 1,
         "file": "3DBenchy.stl",
         "image": "benchy_preview.jpg"
     },
     {
         "name": "3dPrinterTest",
-        "description": "El famoso modelo 3D de 3D.",
+        "description": "Un modelo 3D diseñado para realizar pruebas exhaustivas en impresoras 3D, verificando parámetros como tolerancias, alineación y resolución.",
         "author": 1,
         "file": "3D_Printer_test.stl",
         "image": "3dprinters_test.jpg"
