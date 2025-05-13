@@ -11,7 +11,7 @@ class Model3d extends Model
     use HasFactory;
     protected $fillable = ['name', 'description', 'author', 'file', 'image'];
     
-    public function author()
+    public function user()
     {
         return $this->belongsTo(User::class, 'author'); // 'author' es la clave foránea
     }

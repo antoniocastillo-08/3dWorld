@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('type');
             $table->string('brand');
             $table->string('print_volume');
+            $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

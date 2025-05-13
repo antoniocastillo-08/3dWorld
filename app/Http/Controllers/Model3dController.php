@@ -105,7 +105,6 @@ class Model3dController extends Controller
      */
     public function show(Model3d $model)
     {
-        $model->load('author');
         return view('models3d.show', ['model' => $model]);
 
     }
@@ -201,8 +200,8 @@ class Model3dController extends Controller
         $folder = 'models/' . $model->name;
 
         // Elimina la carpeta completa si existe
-        if (Storage::exists($folder)) {
-            Storage::deleteDirectory($folder);
+        if (Storage::disk('public')->exists($folder)) {
+            Storage::disk('public')->deleteDirectory($folder);
         }
 
         // Elimina el registro del modelo de la base de datos

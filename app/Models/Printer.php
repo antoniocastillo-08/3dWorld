@@ -11,7 +11,9 @@ class Printer extends Model
     use HasFactory;
 
     public function users(){
-        return $this->belongsToMany('App\Models\User', 'print_user', 'printer_id','user_id');
+        return $this->belongsToMany('App\Models\User', 'print_user', 'printer_id','user_id')
+        ->withPivot('status','nozzle_size')
+        ->withTimestamps();
     }
     public function filaments()
     {

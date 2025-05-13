@@ -1,9 +1,13 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Printer;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Model3dController;
+use App\Http\Controllers\PrinterController;
 
+//Rutas para el modelo 3D
+//|--------------------------------------------------------------------------
 Route::get('/', [Model3dController::class, 'index'])->name('models3d.index');
 
 Route::get('/model3d/{model}', [Model3dController::class, 'show'])->name('models3d.show');
@@ -21,7 +25,19 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/models3d/{model}', [Model3dController::class, 'destroy'])->name('models3d.destroy');
 });
 
+//Rutas para la gestión de Impresoras3d
+//--------------------------------------------------------------------------
+Route::middleware(['auth'])->group(function () {
+    Route::get('/printers', [PrinterController::class, 'index'])->name('printers.index');
+    Route::get('/printers/add', [PrinterController::class, 'add'])->name('printers.add');
+});Route::post('/printers/attach', [PrinterController::class, 'attach'])->name('printers.attach');
 
+
+
+
+
+// Rutas para la autenticación
+//|--------------------------------------------------------------------------
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

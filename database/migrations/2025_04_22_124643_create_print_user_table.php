@@ -13,6 +13,8 @@ class CreatePrintUserTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('printer_id')->constrained()->onDelete('cascade');
             $table->enum('status', ['Available', 'On Use', 'Not Available'])->default('Available');
+            $table->float('nozzle_size')->nullable();
+            // $table->float('print_speed')->nullable();
             $table->timestamps();
         });
     }

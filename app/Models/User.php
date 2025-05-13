@@ -49,7 +49,9 @@ class User extends Authenticatable
         ];
     }
     public function printers(){
-        return $this->belongsToMany('App\Models\Printer', 'print_user', 'user_id','printer_id');
+        return $this->belongsToMany('App\Models\Printer', 'print_user', 'user_id','printer_id')
+        ->withPivot('status','nozzle_size')
+        ->withTimestamps();
     }
     public function favoriteModels()
     {

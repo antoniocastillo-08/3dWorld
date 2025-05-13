@@ -12,7 +12,7 @@
             <h2 class="text-lg font-mono text-gray-600">
                 Creado por:
                 @if ($model->author)
-                    {{ $model->author }}
+                    {{ $model->user->name }}
                 @else
                     Autor desconocido
                 @endif
