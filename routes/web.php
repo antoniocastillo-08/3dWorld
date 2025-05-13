@@ -30,8 +30,9 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/printers', [PrinterController::class, 'index'])->name('printers.index');
     Route::get('/printers/add', [PrinterController::class, 'add'])->name('printers.add');
-});Route::post('/printers/attach', [PrinterController::class, 'attach'])->name('printers.attach');
-
+    Route::get('/printers/customize/{printerId}', [PrinterController::class, 'customize'])->name('printers.customize');
+    Route::post('/printers/attach', [PrinterController::class, 'attach'])->name('printers.attach');
+});
 
 
 
@@ -52,4 +53,4 @@ Route::get('/models3d/upload', function () {
     return view('models3d.upload');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

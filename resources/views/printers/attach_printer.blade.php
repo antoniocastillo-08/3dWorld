@@ -1,0 +1,44 @@
+@extends('app')
+@section('title', 'Personalizar Impresora')
+@section('content')
+<div class="container mx-auto px-4 py-6 max-w-3xl">
+    <h1 class="text-2xl font-bold mb-4">Personalizar Impresora</h1>
+
+    <form action="{{ route('printers.attach') }}" method="POST" class="bg-white shadow-md rounded-lg p-6">
+        @csrf
+        <input type="hidden" name="printer_id" value="{{ $printer->id }}">
+
+        <!-- Nombre personalizado -->
+        <div class="mb-4">
+            <label for="name" class="block text-sm font-medium text-gray-700">Nombre Personalizado</label>
+            <input type="text" name="name" id="name" required
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+
+        <!-- Estado -->
+        <div class="mb-4">
+            <label for="status" class="block text-sm font-medium text-gray-700">Estado</label>
+            <select name="status" id="status" required
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                <option value="Available">Disponible</option>
+                <option value="On Use">En Uso</option>
+                <option value="Not Available">No Disponible</option>
+            </select>
+        </div>
+
+        <!-- Tamaño de la boquilla -->
+        <div class="mb-4">
+            <label for="nozzle_size" class="block text-sm font-medium text-gray-700">Tamaño de la Boquilla (mm)</label>
+            <input type="number" name="nozzle_size" id="nozzle_size" step="0.1" min="0.1" required
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+        </div>
+
+        <!-- Botón de enviar -->
+        <div class="flex justify-end">
+            <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+                Guardar
+            </button>
+        </div>
+    </form>
+</div>
+@endsection

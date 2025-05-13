@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\UserPrinter;
 
 class User extends Authenticatable
 {
@@ -48,11 +49,11 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function printers(){
-        return $this->belongsToMany('App\Models\Printer', 'print_user', 'user_id','printer_id')
-        ->withPivot('status','nozzle_size')
-        ->withTimestamps();
+    public function printers()
+    {
+        return $this->hasMany(UserPrinter::class);
     }
+    
     public function favoriteModels()
     {
     return $this->belongsToMany(Model3d::class, 'model3d_user');

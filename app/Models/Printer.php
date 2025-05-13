@@ -4,17 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\UserPrinter;
 
 class Printer extends Model
 {
     /** @use HasFactory<\Database\Factories\PrintersFactory> */
     use HasFactory;
 
-    public function users(){
-        return $this->belongsToMany('App\Models\User', 'print_user', 'printer_id','user_id')
-        ->withPivot('status','nozzle_size')
-        ->withTimestamps();
+    public function userPrinters()
+    {
+        return $this->hasMany(UserPrinter::class);
     }
+    
     public function filaments()
     {
     return $this->belongsToMany(Filament::class, 'filament_printer');
