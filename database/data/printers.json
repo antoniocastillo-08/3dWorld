@@ -1,29 +1,60 @@
 [
     {
-        "name": "Ender 3",
-        "model": "Ender",
-        "type": "FDM",
-        "brand": "Creality",
-        "print_volume": "220x220x250 mm",
-        "description": "La Ender 3 es una impresora 3D ideal para principiantes y aficionados gracias a su excelente relación calidad-precio. Ofrece un generoso espacio de impresión de 220 x 220 x 250 mm y su cama caliente asegura una buena adhesión del material, evitando deformaciones. Es compatible con filamentos como PLA y PETG, lo que permite crear objetos variados. Aunque requiere montaje y ajustes manuales, esto ayuda a entender mejor su funcionamiento. No es la más silenciosa, pero sus resultados son impresionantes para su precio. En resumen, es una opción accesible, versátil y perfecta para aprender y explorar la impresión 3D.",
-        "image": "printers/ender3.jpg"
-    },
-    {
         "name": "Prusa CORE One",
         "model": "CORE",
         "type": "FDM",
         "brand": "Prusa",
         "print_volume": " 250 × 220 × 270 mm",
-        "description": "La Prusa CORE One fue presentada en Formnext. Prusa Research ha diseñado esta impresora 3D con un sistema CoreXY totalmente cerrado y control activo de temperatura. Este modelo es ideal para aficionados y profesionales ya que la experiencia de usuario es muy fácil.",
         "image": "printers/prusa_core_one.jpg"
     },
     {
-        "name": "Ender 3 V3 KE",
+        "name": "Original Prusa MK4S",
+        "model": "MK4S",
+        "type": "FDM",
+        "brand": "Prusa",
+        "print_volume": " 250 × 210 × 220 mm",
+        "image": "printers/original_mk4s.jpg"
+    },  
+    {
+        "name": "Original Prusa XL",
+        "model": "XL",
+        "type": "FDM",
+        "brand": "Prusa",
+        "print_volume": "360 x 360 x 360 mm",
+        "image": "printers/original_prusa_xl.jpg"
+    },
+
+
+    {
+        "name": "Ender 3",
         "model": "Ender",
         "type": "FDM",
         "brand": "Creality",
         "print_volume": "220x220x250 mm",
-        "description": "La Ender 3 V3 KE es una impresora 3D diseñada para ofrecer alta precisión y fiabilidad en cada impresión. Ideal para principiantes y usuarios avanzados, esta impresora combina un diseño robusto con características modernas que garantizan resultados consistentes. Con un volumen de impresión de 220 x 220 x 250 mm, es perfecta para proyectos de tamaño medio. Su compatibilidad con filamentos como PLA y PETG, junto con su facilidad de uso, la convierten en una excelente opción para quienes buscan iniciarse en la impresión 3D o mejorar su experiencia actual.",
-        "image":"printers/ender3_v3_ke.jpg"
+        "image": "printers/ender3.jpg"
+    },
+    {
+        "name": "K1C",
+        "model": "K1",
+        "type": "FDM",
+        "brand": "Creality",
+        "print_volume": "355 x 355 x 482 mm",
+        "image":"printers/k1c.jpg"
+    },
+    {
+        "name": "HALOT R6",
+        "model": "Halot",
+        "type": "Resina",
+        "brand": "Creality",
+        "print_volume": "355 x 355 x 482 mm",
+        "image":"printers/halot_r6.jpg"
+    },
+    {
+        "name": "Elegoo Mars 3",
+        "model": "Mars",
+        "type": "Resina",
+        "brand": "Elegoo",
+        "print_volume": "143x89x175 mm",
+        "image": "printers/elegoo_mars_3.jpg"
     }
 ]

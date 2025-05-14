@@ -5,6 +5,7 @@ use App\Models\Printer;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Model3dController;
 use App\Http\Controllers\PrinterController;
+use App\Http\Controllers\DashboardController;
 
 //Rutas para el modelo 3D
 //|--------------------------------------------------------------------------
@@ -39,9 +40,9 @@ Route::middleware(['auth'])->group(function () {
 
 // Rutas para la autenticación
 //|--------------------------------------------------------------------------
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

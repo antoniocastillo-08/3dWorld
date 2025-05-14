@@ -11,7 +11,7 @@
         <!-- Nombre personalizado -->
         <div class="mb-4">
             <label for="name" class="block text-sm font-medium text-gray-700">Nombre Personalizado</label>
-            <input type="text" name="name" id="name" required
+            <input type="text" name="name" id="name" required value="{{ $printer->name }}"
                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
         </div>
 
@@ -26,12 +26,14 @@
             </select>
         </div>
 
-        <!-- Tamaño de la boquilla -->
-        <div class="mb-4">
-            <label for="nozzle_size" class="block text-sm font-medium text-gray-700">Tamaño de la Boquilla (mm)</label>
-            <input type="number" name="nozzle_size" id="nozzle_size" step="0.1" min="0.1" required
-                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-        </div>
+        <!-- Tamaño de la boquilla (solo si no es de tipo Resina) -->
+        @if ($printer->type !== 'Resina')
+            <div class="mb-4">
+                <label for="nozzle_size" class="block text-sm font-medium text-gray-700">Tamaño de la Boquilla (mm)</label>
+                <input type="number" name="nozzle_size" id="nozzle_size" value="0.4" step="0.1" min="0.1" required
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
+        @endif
 
         <!-- Botón de enviar -->
         <div class="flex justify-end">

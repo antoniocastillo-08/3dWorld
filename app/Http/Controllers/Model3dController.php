@@ -56,7 +56,7 @@ class Model3dController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|file|max:2048', // Validación básica para imágenes
+            'image' => 'nullable|file|max:20000', // Validación básica para imágenes
             'file' => 'nullable|file|max:512000', // Validación básica para archivos STL
         ]);
 
@@ -134,7 +134,7 @@ class Model3dController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'image' => 'nullable|file|max:2048', // Validación básica para imágenes
+            'image' => 'nullable|file|max:20000', // Validación básica para imágenes
             'file' => 'nullable|file|max:512000', // Validación básica para archivos STL
         ]);
 
