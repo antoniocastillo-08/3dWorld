@@ -12,5 +12,12 @@
         "author": 1,
         "file": "3D_Printer_test.stl",
         "image": "3dprinters_test.jpg"
+    },
+    {
+        "name": "TestCalibration",
+        "description": "",
+        "author": 1,
+        "file": "ultimate_calibration_test.STL",
+        "image": "test_calibration.jpg"
     }
 ]

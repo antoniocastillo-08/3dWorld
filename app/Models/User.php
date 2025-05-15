@@ -56,7 +56,7 @@ class User extends Authenticatable
     
     public function favoriteModels()
     {
-    return $this->belongsToMany(Model3d::class, 'model3d_user');
+    return $this->belongsToMany(Model3d::class, 'model3d_user')->withTimestamps();
     }   
     public function filaments()
     {

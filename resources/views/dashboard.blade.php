@@ -9,16 +9,16 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("Bienvenido a 3dWorld !") }}
+                    {{ __("Welcome to 3dWorld !") }}
                 </div>
             </div>
 
             <!-- Widget de impresoras -->
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg mt-6">
+            <div class="bg-white border border-black border-separate overflow-hidden shadow-xl sm:rounded-lg mt-6">
                 <div class="p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Tus Impresoras</h3>
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Your Printers</h3>
                     @if ($printers->isEmpty())
-                        <p class="text-gray-600">No tienes impresoras asociadas.</p>
+                        <p class="text-gray-600">You don't have any printers associated</p>
                     @else
                         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             @foreach ($printers as $userPrinter)

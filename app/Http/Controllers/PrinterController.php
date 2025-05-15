@@ -49,7 +49,7 @@ class PrinterController extends Controller
             'printer_id' => 'required|exists:printers,id',
             'name' => 'required|string|max:255', // Nombre personalizado
             'status' => 'required|in:Available,On Use,Not Available', // Estado
-            'nozzle_size' => 'required|numeric|min:0.1', // Tamaño de la boquilla
+            'nozzle_size' => 'numeric|min:0.1', // Tamaño de la boquilla
         ]);
     
         // Crear la relación en la tabla pivot
@@ -69,7 +69,6 @@ class PrinterController extends Controller
      */
     public function create()
     {
-        //
     }
 
     /**
@@ -77,7 +76,7 @@ class PrinterController extends Controller
      */
     public function store(StorePrinterRequest $request)
     {
-        //
+        
     }
 
     /**
@@ -91,24 +90,60 @@ class PrinterController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Printer $printer)
+    public function edit($id)
     {
-        //
+        $userPrinter = UserPrinter::findOrFail($id);
+    
+        // Verifica si el usuario es el propietario o tiene el rol de administrador
+        if (auth()->id() !== $userPrinter->user_id && !auth()->user()->hasRole('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+    
+        return view('printers.edit', compact('userPrinter'));
     }
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePrinterRequest $request, Printer $printer)
+    public function update(Request $request, $id)
     {
-        //
+        $userPrinter = UserPrinter::findOrFail($id);
+    
+        // Verifica si el usuario es el propietario o tiene el rol de administrador
+        if (auth()->id() !== $userPrinter->user_id && !auth()->user()->hasRole('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+    
+        // Validar los datos recibidos
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'status' => 'required|in:Available,On Use,Not Available',
+            'nozzle_size' => 'nullable|numeric|min:0.1',
+        ]);
+    
+        // Actualizar los datos en la tabla user_printers
+        $userPrinter->update([
+            'name' => $request->name,
+            'status' => $request->status,
+            'nozzle_size' => $request->nozzle_size,
+        ]);
+    
+        return redirect()->route('printers.index')->with('success', 'Impresora actualizada correctamente.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Printer $printer)
+    public function destroy($id)
     {
-        //
+        $userPrinter = UserPrinter::findOrFail($id);
+    
+        // Verifica si el usuario es el propietario o tiene el rol de administrador
+        if (auth()->id() !== $userPrinter->user_id && !auth()->user()->hasRole('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+    
+        $userPrinter->delete();
+    
+        return redirect()->route('printers.index')->with('success', 'Printer deleted successfully.');
     }
 }

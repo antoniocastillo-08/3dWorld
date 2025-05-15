@@ -52,55 +52,18 @@
                         </a>
                         <a href="/profile" class="text-gray-700 hover:text-indigo-600 transition">Profile</a>
                         <a href="/printers" class="block text-gray-700 hover:text-indigo-600">Printers</a>
-
                     @endguest
                 </div>
             </div>
         </div>
-
-        <!-- Menu para móvil -->
-        <div id="mobile-menu" class="lg:hidden hidden px-4 pb-4 space-y-2">
-            @guest
-                <a href="/login" class="block text-gray-700 hover:text-indigo-600">Login</a>
-                <a href="/register" class="block text-gray-700 hover:text-indigo-600">Register</a>
-            @else
-                <a href="/models3d/create" class="block text-gray-700 hover:text-indigo-600">Create</a>
-                <a href="/profile" class="block text-gray-700 hover:text-indigo-600">Profile</a>
-                <a href="/printers" class="block text-gray-700 hover:text-indigo-600">Printers</a>
-
-            @endguest
-        </div>
     </nav>
 
-    <main>
+    <main class="flex-grow">
         @yield('content')
-        <!--
-            <button id="chat-button"
-            class="fixed bottom-4 right-4 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg z-50"> 💬
-        </button>
-
-        <div id="chat-box"
-            class="fixed bottom-20 right-4 w-80 bg-white border border-gray-300 rounded-lg shadow-lg hidden z-50">
-            <div class="bg-blue-600 text-white px-4 py-2 rounded-t-lg flex justify-between items-center">
-                <h4 class="font-semibold">Chat de Atención</h4>
-                <button id="close-chat" class="text-white text-xl font-bold">&times;</button>
-            </div>
-            <div id="chat-messages" class="p-4 h-64 overflow-y-auto text-sm space-y-2">
-                <div class="text-gray-600">🤖 Hola, ¿en qué puedo ayudarte?</div>
-            </div>
-            <div class="p-2 border-t flex">
-                <input id="user-input" type="text" placeholder="Escribe tu mensaje..."
-                    class="flex-1 border rounded px-2 py-1 text-sm">
-                <button id="send-button"
-                    class="ml-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm">Enviar</button>
-            </div>
-        </div>
-        @vite('resources/js/chatbot.js')
-    -->
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-500 py-6 text-white">
+    <footer class="bg-gray-500 py-6 text-white mt-auto">
         <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-around gap-8 text-center md:text-center">
 
             <!-- Contacto -->
@@ -147,23 +110,6 @@
                             </g>
                         </svg>
                     </a>
-
-                    <!-- Instagram -->
-                    <a href="#" class="block hover:underline" aria-label="Instagram">
-                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="32" height="32"
-                            viewBox="0,0,256,256">
-                            <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
-                                stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
-                                font-family="none" font-weight="none" font-size="none" text-anchor="none"
-                                style="mix-blend-mode: normal">
-                                <g transform="scale(8,8)">
-                                    <path
-                                        d="M11.46875,5c-3.55078,0 -6.46875,2.91406 -6.46875,6.46875v9.0625c0,3.55078 2.91406,6.46875 6.46875,6.46875h9.0625c3.55078,0 6.46875,-2.91406 6.46875,-6.46875v-9.0625c0,-3.55078 -2.91406,-6.46875 -6.46875,-6.46875zM11.46875,7h9.0625c2.47266,0 4.46875,1.99609 4.46875,4.46875v9.0625c0,2.47266 -1.99609,4.46875 -4.46875,4.46875h-9.0625c-2.47266,0 -4.46875,-1.99609 -4.46875,-4.46875v-9.0625c0,-2.47266 1.99609,-4.46875 4.46875,-4.46875zM21.90625,9.1875c-0.50391,0 -0.90625,0.40234 -0.90625,0.90625c0,0.50391 0.40234,0.90625 0.90625,0.90625c0.50391,0 0.90625,-0.40234 0.90625,-0.90625c0,-0.50391 -0.40234,-0.90625 -0.90625,-0.90625zM16,10c-3.30078,0 -6,2.69922 -6,6c0,3.30078 2.69922,6 6,6c3.30078,0 6,-2.69922 6,-6c0,-3.30078 -2.69922,-6 -6,-6zM16,12c2.22266,0 4,1.77734 4,4c0,2.22266 -1.77734,4 -4,4c-2.22266,0 -4,-1.77734 -4,-4c0,-2.22266 1.77734,-4 4,-4z">
-                                    </path>
-                                </g>
-                            </g>
-                        </svg>
-                    </a>
                 </div>
             </div>
         </div>
@@ -173,15 +119,6 @@
             &copy; {{ date('Y') }} 3dWorld. Todos los derechos reservados.
         </div>
     </footer>
-
-    <!-- Toggle mobile menu -->
-    <script>
-        document.getElementById('mobile-menu-toggle')?.addEventListener('click', function () {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
-    </script>
-
 </body>
 
 </html>

@@ -33,6 +33,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/printers/add', [PrinterController::class, 'add'])->name('printers.add');
     Route::get('/printers/customize/{printerId}', [PrinterController::class, 'customize'])->name('printers.customize');
     Route::post('/printers/attach', [PrinterController::class, 'attach'])->name('printers.attach');
+
+    Route::get('/printers/{printerId}/edit', action: [PrinterController::class, 'edit'])->name('printers.edit');
+    Route::put('/printers/{printerId}', [PrinterController::class, 'update'])->name('printers.update');
+    
+    Route::delete('/printers/{printerId}', [PrinterController::class, 'destroy'])->name('printers.destroy');
 });
 
 

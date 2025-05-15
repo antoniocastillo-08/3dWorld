@@ -34,7 +34,7 @@ class AdminSeeder extends Seeder
 
         // Crear el usuario administrador
         $admin = User::updateOrCreate(
-            ['email' => 'admin@gmail.com'], // Evitar duplicados
+            ['email' => 'admin@3dworld.com'], // Evitar duplicados
             [
                 'name' => 'CastilloAdmin',
                 'password' => bcrypt('contraseña'), 

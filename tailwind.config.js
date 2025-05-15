@@ -18,4 +18,16 @@ export default {
     },
 
     plugins: [forms],
+
+    darkMode: 'class', // Habilita el modo oscuro basado en clases
+    content: [
+        './resources/**/*.blade.php',
+        './resources/**/*.js',
+        './resources/**/*.vue',
+    ],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
+
 };

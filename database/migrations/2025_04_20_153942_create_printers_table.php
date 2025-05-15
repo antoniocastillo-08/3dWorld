@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('model');
-            $table->string('type');
+            $table->enum('type', ['FDM', 'SLA']);
             $table->string('brand');
             $table->string('print_volume');
             $table->string('image')->nullable();

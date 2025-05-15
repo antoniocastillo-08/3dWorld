@@ -44,7 +44,7 @@
     {
         "name": "HALOT R6",
         "model": "Halot",
-        "type": "Resina",
+        "type": "SLA",
         "brand": "Creality",
         "print_volume": "355 x 355 x 482 mm",
         "image":"printers/halot_r6.jpg"
@@ -52,7 +52,7 @@
     {
         "name": "Elegoo Mars 3",
         "model": "Mars",
-        "type": "Resina",
+        "type": "SLA",
         "brand": "Elegoo",
         "print_volume": "143x89x175 mm",
         "image": "printers/elegoo_mars_3.jpg"
