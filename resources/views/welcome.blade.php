@@ -12,43 +12,52 @@
             <div class="max-w-6xl mx-auto mb-20">
                 <h2 class="text-2xl font-bold text-gray-800 mb-4">Your Printers</h2>
                 <div class="relative">
-                    <a href="/printers">
-                    <div id="printer-carousel" class="flex overflow-hidden gap-4">
-                        @foreach ($printers as $printer)
-                            <div
-                                class="flex-none w-64 bg-white rounded-lg shadow hover:shadow-xl transition duration-300 overflow-hidden">
-                                @if ($printer->printer->image)
-                                    <img src="{{ asset('storage/' . $printer->printer->image) }}" alt="{{ $printer->printer->name }}"
-                                        class="w-full h-40 object-cover">
-                                @else
-                                    <div class="w-full h-40 flex items-center justify-center bg-gray-200 text-gray-500">
-                                        No image available
+                    @if ($printers->isEmpty())
+                        {{-- Mensaje cuando no hay impresoras --}}
+                        <div class="w-full h-40 flex items-center justify-center bg-gray-200 text-gray-600 rounded-lg shadow">
+                            <p class="text-lg">
+                                You don't have printers added.
+                                <a href="/printers" class="text-blue-500 hover:underline">Add some...</a>
+                            </p>
+                        </div>
+                    @else
+                        {{-- Carrusel de impresoras --}}
+                        <div id="printer-carousel" class="flex overflow-hidden gap-4">
+                            @foreach ($printers as $printer)
+                                <div
+                                    class="flex-none w-64 bg-white rounded-lg shadow hover:shadow-xl transition duration-300 overflow-hidden">
+                                    @if ($printer->printer->image)
+                                        <img src="{{ asset('storage/' . $printer->printer->image) }}" alt="{{ $printer->printer->name }}"
+                                            class="w-full h-40 object-cover">
+                                    @else
+                                        <div class="w-full h-40 flex items-center justify-center bg-gray-200 text-gray-500">
+                                            No image available
+                                        </div>
+                                    @endif
+                                    <div class="p-4">
+                                        <h3 class="text-lg font-semibold text-gray-800">{{ $printer->name }}</h3>
+                                        <p class="text-sm text-gray-600 mt-1">Status: {{ $printer->status }}</p>
                                     </div>
-                                @endif
-                                <div class="p-4">
-                                    <h3 class="text-lg font-semibold text-gray-800">{{ $printer->name }}</h3>
-                                    <p class="text-sm text-gray-600 mt-1">Status: {{ $printer->status }}</p>
                                 </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    </a>
+                            @endforeach
+                        </div>
 
-                    {{-- Botones de navegación --}}
-                    <button id="prev-button"
-                        class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow hover:bg-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                        </svg>
-                    </button>
-                    <button id="next-button"
-                        class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow hover:bg-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </button>
+                        {{-- Botones de navegación --}}
+                        <button id="prev-button"
+                            class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow hover:bg-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <button id="next-button"
+                            class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full shadow hover:bg-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    @endif
                 </div>
             </div>
         @endauth
@@ -86,12 +95,11 @@
                 </button>
             </form>
         </div>
-
         {{-- Galería de modelos --}}
         <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach ($models as $model)
                 <a href="{{ route('models3d.show', $model->id) }}"
-                    class="bg-white rounded-lg shadow hover:shadow-xl transition duration-300 overflow-hidden group">
+                    class="bg-white rounded-lg shadow hover:shadow-xl transition duration-300 overflow-hidden group relative">
                     @if ($model->image)
                         <img src="{{ asset('storage/' . $model->image) }}" alt="{{ $model->name }}"
                             class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
@@ -105,10 +113,29 @@
                         <h3 class="text-lg font-semibold text-gray-800">{{ $model->name }}</h3>
                         <p class="text-sm text-gray-600 mt-1">{{ Str::limit($model->description, 100) }}</p>
                     </div>
+
+                    {{-- Botón de Like --}}
+                    <form action="{{ $model->likedBy->contains(auth()->id()) ? route('models3d.unlike', $model->id) : route('models3d.like', $model->id) }}" method="POST" class="absolute top-2 right-2">
+                        @csrf
+                        <button type="submit" class="text-gray-900 p-1 bg-gradient-to-t from-white to-transparent rounded-full hover:text-red-500 transition">
+                            @if ($model->likedBy->contains(auth()->id()))
+                                {{-- Ícono de "liked" --}}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                </svg>
+                            @else
+                                {{-- Ícono de "no liked" --}}
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                </svg>
+                            @endif
+                        </button>
+                    </form>
                 </a>
             @endforeach
         </div>
-        
+    </div>
+
     </div>
 
     {{-- Script para el carrusel --}}

@@ -41,7 +41,7 @@ class User extends Authenticatable
      * @return array<string, string>
      */
 
-     
+
     protected function casts(): array
     {
         return [
@@ -53,15 +53,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserPrinter::class);
     }
-    
-    public function favoriteModels()
+
+    public function likedModels()
     {
-    return $this->belongsToMany(Model3d::class, 'model3d_user')->withTimestamps();
-    }   
+        return $this->belongsToMany(Model3d::class, 'like')->withTimestamps();
+    }
     public function filaments()
     {
-    return $this->belongsToMany(Filament::class, 'filament_user')->withPivot('quantity');
-    }   
+        return $this->belongsToMany(Filament::class, 'filament_user')->withPivot('quantity');
+    }
     protected static function booted()
     {
         static::created(function ($user) {

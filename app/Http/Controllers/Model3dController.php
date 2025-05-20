@@ -35,7 +35,7 @@ class Model3dController extends Controller
         }
 
         $models = $query->get();
-        
+
         $printers = auth()->check()
             ? UserPrinter::where('user_id', auth()->id())->with('printer')->get()
             : collect(); // Si no está autenticado, devuelve una colección vacía
@@ -43,7 +43,7 @@ class Model3dController extends Controller
         // Pasar las variables a la vista
         return view('welcome', compact('models', 'printers'));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -214,5 +214,29 @@ class Model3dController extends Controller
         $model->delete();
 
         return redirect()->route('models3d.index')->with('success', 'Modelo eliminado correctamente.');
+    }
+
+    public function like($id)
+    {
+        $model = Model3d::findOrFail($id);
+
+        // Verificar si el usuario ya dio "like"
+        if ($model->likedBy()->where('user_id', auth()->id())->exists()) {
+            return redirect()->back()->with('info', 'You already liked this model.');
+        }
+
+        // Registrar el "like"
+        $model->likedBy()->attach(auth()->id());
+
+        return redirect()->back()->with('success', 'You liked this model!');
+    }
+    public function unlike($id)
+    {
+        $model = Model3d::findOrFail($id);
+
+        // Eliminar el "like"
+        $model->likedBy()->detach(auth()->id());
+
+        return redirect()->back()->with('success', 'You unliked this model!');
     }
 }

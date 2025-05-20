@@ -22,6 +22,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/models3d/{model}/edit', [Model3dController::class, 'edit'])->name('models3d.edit');
     Route::put('/models3d/{model}', [Model3dController::class, 'update'])->name('models3d.update');
 
+    Route::post('/models3d/{id}/like', [Model3dController::class, 'like'])->name('models3d.like');
+    Route::post('/models3d/{id}/unlike', [Model3dController::class, 'unlike'])->name('models3d.unlike');
     // Eliminar modelo
     Route::delete('/models3d/{model}', [Model3dController::class, 'destroy'])->name('models3d.destroy');
 });

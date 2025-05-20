@@ -13,6 +13,10 @@ class DashboardController extends Controller
         // Obtener las impresoras asociadas al usuario
         $printers = UserPrinter::where('user_id', $user->id)->with('printer')->get();
 
-        return view('dashboard', compact('printers'));
+        // Obtener los modelos 3D a los que se les ha dado like
+        $likedModels = $user->likedModels()->with('user')->get();
+
+
+        return view('dashboard', compact('printers', 'likedModels'));
     }
 }

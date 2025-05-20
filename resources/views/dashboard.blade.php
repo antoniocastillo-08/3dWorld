@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("Welcome to 3dWorld !") }}
+                    {{ __("Welcome to your personal space!") }}
                 </div>
             </div>
 
@@ -24,7 +24,8 @@
                             @foreach ($printers as $userPrinter)
                                 <div class="bg-gray-100 border border-gray-300 shadow-md rounded-lg p-4">
                                     @if ($userPrinter->printer->image)
-                                        <img src="{{ asset('storage/' . $userPrinter->printer->image) }}" alt="{{ $userPrinter->printer->name }}"
+                                        <img src="{{ asset('storage/' . $userPrinter->printer->image) }}"
+                                            alt="{{ $userPrinter->printer->name }}"
                                             class="w-full h-32 object-cover rounded-lg mb-2">
                                     @endif
                                     <h4 class="text-md font-semibold text-gray-800">{{ $userPrinter->printer->name }}</h4>
@@ -34,6 +35,33 @@
                         </div>
                     @endif
                 </div>
+            </div>
+
+            {{-- Sección de modelos que el usuario ha dado "like" --}}
+            <div class="mt-6">
+                <h3 class="text-lg font-semibold mb-4">Models You Liked</h3>
+                @if ($likedModels->isEmpty())
+                    <p class="text-gray-600">You haven't liked any models yet.</p>
+                @else
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        @foreach ($likedModels as $model)
+                            <li class="bg-white rounded-lg shadow hover:shadow-xl transition duration-300 overflow-hidden">
+                                @if ($model->image)
+                                    <img src="{{ asset('storage/' . $model->image) }}" alt="{{ $model->name }}"
+                                        class="w-full h-48 object-cover">
+                                @else
+                                    <div class="w-full h-48 flex items-center justify-center bg-gray-200 text-gray-500">
+                                        No image available
+                                    </div>
+                                @endif
+                                <div class="p-4">
+                                    <h3 class="text-lg font-bold text-gray-800">{{ $model->name }}</h3>
+                                    <p class="text-sm text-gray-600">{{ Str::limit($model->description, 100) }}</p>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
             </div>
         </div>
     </div>

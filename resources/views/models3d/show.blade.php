@@ -5,7 +5,32 @@
 @section('content')
     <div class="min-h-screen py-10 px-4 bg-gradient-to-br from-white to-blue-300">
         <div class="max-w-6xl mx-auto space-y-6">
-            <h1 class="text-3xl font-mono font-bold text-gray-800">{{ $model->name }}</h1>
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-mono font-bold text-gray-800">{{ $model->name }}</h1>
+                
+                {{-- Botón de Like --}}
+                <form
+                    action="{{ $model->likedBy->contains(auth()->id()) ? route('models3d.unlike', $model->id) : route('models3d.like', $model->id) }}"
+                    method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="text-gray-900 p-4 bg-white rounded-full hover:text-red-500 transition">
+                        @if ($model->likedBy->contains(auth()->id()))
+                            {{-- Ícono de "liked" --}}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-red-500" fill="currentColor"
+                                viewBox="0 0 24 24">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                        @else
+                            {{-- Ícono de "no liked" --}}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                            </svg>
+                        @endif
+                    </button>
+                </form>
+            </div>
             <h2 class="text-lg font-mono text-gray-600">
                 Created by:
                 @if ($model->author)
@@ -14,6 +39,7 @@
                     Unknown Author
                 @endif
             </h2>
+
             <!-- Botón de descarga del STL -->
             <div class="flex gap-3 mt-4">
                 @if ($model->file)
