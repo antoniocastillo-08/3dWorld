@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\UserPrinter;
 class Model3dController extends Controller
 {
     /**
@@ -35,9 +35,15 @@ class Model3dController extends Controller
         }
 
         $models = $query->get();
+        
+        $printers = auth()->check()
+            ? UserPrinter::where('user_id', auth()->id())->with('printer')->get()
+            : collect(); // Si no está autenticado, devuelve una colección vacía
 
-        return view('welcome', compact('models'));
+        // Pasar las variables a la vista
+        return view('welcome', compact('models', 'printers'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -55,7 +61,7 @@ class Model3dController extends Controller
         // Validación de los datos recibidos
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'description' => 'nullable|string|max:65535',
             'image' => 'nullable|file|max:20000', // Validación básica para imágenes
             'file' => 'nullable|file|max:512000', // Validación básica para archivos STL
         ]);

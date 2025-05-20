@@ -15,9 +15,30 @@
     },
     {
         "name": "TestCalibration",
-        "description": "",
+        "description": "Un modelo 3D diseñado para realizar pruebas avanzadas de calibración en impresoras 3D, evaluando parámetros como precisión dimensional, alineación de ejes y calidad de las capas.",
         "author": 1,
         "file": "ultimate_calibration_test.STL",
         "image": "test_calibration.jpg"
+    },
+    {
+        "name": "CaliCat",
+        "description":"Un modelo 3D en forma de gato, ideal para probar la calidad de impresión y calibración de impresoras 3D, con detalles que permiten evaluar la resolución y el acabado superficial.",
+        "author": 1,
+        "file": "calicat.stl",
+        "image": "calicat.jpg"
+    },
+    {
+        "name": "Lattice Cube 3D Printer Torture Test ",
+        "description":"Un modelo 3D diseñado para poner a prueba los límites de las impresoras 3D. Este cubo con estructura de celosía evalúa la capacidad de la impresora para manejar geometrías complejas, puentes, voladizos y detalles intrincados.",
+        "author": 1,
+        "file": "Lower_Lattice_Cube.stl",  
+        "image": "Lower_Lattice_Cube.jpg"  
+    },
+    {
+        "name": "Angle Test",
+        "description":"Un modelo 3D diseñado para probar la capacidad de las impresoras 3D para manejar ángulos y voladizos. Ideal para evaluar la precisión en la impresión de inclinaciones y la calidad de las capas en superficies inclinadas.",
+        "author": 1,
+        "file": "Angle_Test.stl",  
+        "image": "Angle_Test.jpg"  
     }
 ]

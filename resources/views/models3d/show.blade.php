@@ -5,41 +5,47 @@
 @section('content')
     <div class="min-h-screen py-10 px-4 bg-gradient-to-br from-white to-blue-300">
         <div class="max-w-6xl mx-auto space-y-6">
-
-            
-
             <h1 class="text-3xl font-mono font-bold text-gray-800">{{ $model->name }}</h1>
             <h2 class="text-lg font-mono text-gray-600">
-                Creado por:
+                Created by:
                 @if ($model->author)
                     {{ $model->user->name }}
                 @else
-                    Autor desconocido
+                    Unknown Author
                 @endif
             </h2>
-                            <!-- Botones Solo Accesibles por el Administrador y el autor de los modelos -->
-                            @if (auth()->check() && (auth()->id() === $model->author || auth()->user()->can('edit models') || auth()->user()->can('delete models')))
-                            <div class="flex gap-3 mt-4">
-                                @if (auth()->id() === $model->author || auth()->user()->can('edit models'))
-                                    <a href="{{ route('models3d.edit', $model->id) }}"
-                                        class="bg-green-400 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition">
-                                        Editar
-                                    </a>
-                                @endif
-        
-                                @if (auth()->id() === $model->author || auth()->user()->can('delete models'))
-                                    <form action="{{ route('models3d.destroy', $model->id) }}" method="POST"
-                                        onsubmit="return confirm('¿Estás seguro de que deseas eliminar este modelo?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
-                                            Eliminar
-                                        </button>
-                                    </form>
-                                @endif
-                            </div>
-                        @endif
+            <!-- Botón de descarga del STL -->
+            <div class="flex gap-3 mt-4">
+                @if ($model->file)
+                    <a href="{{ asset('storage/' . $model->file) }}" download="{{ $model->name }}.stl"
+                        class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition">
+                        Download STL
+                    </a>
+                @endif
+            </div>
+
+            <!-- Botones Solo Accesibles por el Administrador y el autor de los modelos -->
+            @if (auth()->check() && (auth()->id() === $model->author || auth()->user()->can('edit models') || auth()->user()->can('delete models')))
+                <div class="flex gap-3 mt-4">
+                    @if (auth()->id() === $model->author || auth()->user()->can('edit models'))
+                        <a href="{{ route('models3d.edit', $model->id) }}"
+                            class="bg-green-400 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition">
+                            Edit
+                        </a>
+                    @endif
+
+                    @if (auth()->id() === $model->author || auth()->user()->can('delete models'))
+                        <form action="{{ route('models3d.destroy', $model->id) }}" method="POST"
+                            onsubmit="return confirm('¿Estás seguro de que deseas eliminar este modelo?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition">
+                                Delete
+                            </button>
+                        </form>
+                    @endif
+                </div>
+            @endif
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Imagen -->
                 <div class="bg-neutral-800 rounded-lg shadow">
@@ -58,17 +64,15 @@
                     <div id="3d-visor" class="w-full h-[500px] rounded-lg shadow border border-gray-300 relative"></div>
                 </div>
             </div>
+            <h2 class="text-xl font-semibold text-gray-700">Description</h2>
+            <div class="bg-white px-10 py-6 rounded-lg shadow ">
+                @if(!$model->description)
+                    <p class="text-gray-600">No description</p>
+                @else
+                    <p class="text-gray-600">{{ $model->description }}</p>
+                @endif
+            </div>
 
-            <div>
-                <h5 class="text-xl font-semibold text-gray-700 mt-8 mb-2">Descripción</h5>
-                <p class="text-gray-600">{{ $model->description }}</p>
-            </div>
-            <div>
-                <a href="{{ asset('storage/' . $model->file) }}" download="{{ $model->name }}.stl"
-                    class="bg-blue-500 mt-8 hover:bg-blue-600 text-white px-8 py-6 rounded-lg transition">
-                    Descargar STL
-                </a>
-            </div>
         </div>
     </div>
 

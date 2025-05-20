@@ -1,7 +1,7 @@
 @extends('app')
 @section('title', 'Edit My Printer')
 @section('content')
-<div class="container bg-gradient-to-b from-white to-gray-200 py-36 mx-auto my-8 px-4 text-xl border border-gray-400 rounded-lg shadow-lg">
+<div class="container bg-gradient-to-b from-white to-gray-200 py-20 mx-auto my-8 px-4 text-xl border border-gray-400 rounded-lg shadow-lg">
     <h1 class="text-3xl font-bold mb-4">Edit My Printer</h1>
     <form action="{{ route('printers.update', $userPrinter->id) }}" method="POST">
         @csrf
@@ -29,22 +29,33 @@
             <input type="number" name="nozzle_size" id="nozzle_size" value="{{ $userPrinter->nozzle_size }}" step="0.1" min="0.1" 
                 class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
         </div>
+      
     
         <!-- Botón de enviar -->
         <div class="flex justify-end">
             <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
                 Update Printer
             </button>
-            <form action="{{ route('printers.destroy', $userPrinter->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this printer?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
-                    Delete
-                </button>
-            </form>
+            
         </div>
     </form>
  
+    <div class="flex justify-end my-10">
+        <button type="submit" class="bg-green-500 text-white px-10 py-6 rounded-xl hover:bg-green-700">
+            Filaments
+        </button>
+    </div>
+  
+    <form action="{{ route('printers.destroy', $userPrinter->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this printer?');">
+        @csrf
+        @method('DELETE')
+        <div class="flex justify-end">
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-700">
+            Delete
+        </button>
+        </div>
+    </form>
+
  </div>
 </div>
 @endsection

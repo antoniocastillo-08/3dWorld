@@ -19,7 +19,7 @@
 
 <body class="font-sans antialiased bg-neutral-30 text-gray-800 flex flex-col min-h-screen">
 
-    <nav class="bg-teal-200 border-b border-black shadow-sm">
+    <nav class="bg-teal-100 border-b border-black shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <!-- Brand -->
@@ -68,14 +68,14 @@
 
             <!-- Contacto -->
             <div class="flex-auto">
-                <h3 class="font-semibold text-lg mb-2">Contacto</h3>
+                <h3 class="font-semibold text-lg mb-2">Contact</h3>
                 <p>Email: contacto@3dworld.com</p>
-                <p>Teléfono: +34 123 456 789</p>
+                <p>Phone: +34 123 456 789</p>
             </div>
 
             <!-- Redes Sociales -->
             <div class="flex-auto">
-                <h3 class="font-semibold text-lg mb-2">Redes Sociales</h3>
+                <h3 class="font-semibold text-lg mb-2"></h3>
                 <div class="flex gap-7 justify-center">
                     <!-- Twitter -->
                     <a href="#" class="block hover:underline" aria-label="X">
