@@ -63,6 +63,32 @@
                     </ul>
                 @endif
             </div>
+            {{-- Sección de modelos creados por el usuario --}}
+            <div class="mt-6">
+                <h3 class="text-lg font-semibold mb-4">Your Created Models</h3>
+                @if ($userModels->isEmpty())
+                    <p class="text-gray-600">You haven't created any models yet.</p>
+                @else
+                    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        @foreach ($userModels as $model)
+                            <li class="bg-white rounded-lg shadow hover:shadow-xl transition duration-300 overflow-hidden">
+                                @if ($model->image)
+                                    <img src="{{ asset('storage/' . $model->image) }}" alt="{{ $model->name }}"
+                                        class="w-full h-48 object-cover">
+                                @else
+                                    <div class="w-full h-48 flex items-center justify-center bg-gray-200 text-gray-500">
+                                        No image available
+                                    </div>
+                                @endif
+                                <div class="p-4">
+                                    <h3 class="text-lg font-bold text-gray-800">{{ $model->name }}</h3>
+                                    <p class="text-sm text-gray-600">{{ Str::limit($model->description, 100) }}</p>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
+            </div>
         </div>
     </div>
 </x-app-layout>

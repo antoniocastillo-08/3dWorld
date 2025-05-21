@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\UserPrinter;
+use App\Models\Model3d;
 
 class DashboardController extends Controller
 {
@@ -16,7 +16,9 @@ class DashboardController extends Controller
         // Obtener los modelos 3D a los que se les ha dado like
         $likedModels = $user->likedModels()->with('user')->get();
 
+        // Obtener los modelos 3D subidos por el usuario
+        $userModels = Model3d::where('author', $user->id)->get();
 
-        return view('dashboard', compact('printers', 'likedModels'));
+        return view('dashboard', compact('printers', 'likedModels', 'userModels'));
     }
 }
