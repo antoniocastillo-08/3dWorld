@@ -2,8 +2,14 @@
 @section('title', 'Edit My Printer')
 @section('content')
 <div class="container bg-gradient-to-b from-white to-gray-200 py-20 mx-auto my-8 px-4 text-xl border border-gray-400 rounded-lg shadow-lg">
+    <div class="flex justify-around mx-20">
     <h1 class="text-3xl font-bold mb-4">Edit My Printer</h1>
-    <form action="{{ route('printers.update', $userPrinter->id) }}" method="POST">
+    
+    <img src="{{ asset('storage/' . $userPrinter->printer->image) }}" alt="{{ $userPrinter->printer->name }}"
+        class="w-64 h-64 rounded-lg border border-black mb-4">
+    </div>
+    
+        <form action="{{ route('printers.update', $userPrinter->id) }}" method="POST">
         @csrf
         @method('PUT')
     

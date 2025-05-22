@@ -11,19 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('filaments', function (Blueprint $table) {
+        Schema::create('filaments_printers', function (Blueprint $table) {
             $table->id();
-            $table->string('material');
-            $table->string('brand');
-            $table->string('color');
-            $table->float('diameter');
-            $table->integer('weight');
-            $table->integer('amount');
-
+            $table->unsignedBigInteger('printer_user_id');
             $table->unsignedBigInteger('filament_user_id');
-            $table->foreign('filament_user_id')->references('id')->on('users')->onDelete('cascade');
-
             $table->timestamps();
+
+            $table->foreign('printer_user_id')->references('id')->on('print_users')->onDelete('cascade');
+            $table->foreign('filament_user_id')->references('id')->on('filaments')->onDelete('cascade');
+
+            $table->unique(['printer_user_id', 'filament_user_id']);
         });
     }
 
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('filaments');
+        Schema::dropIfExists('filaments_printers');
     }
 };

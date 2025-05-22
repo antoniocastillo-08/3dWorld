@@ -24,7 +24,7 @@
                         {{-- Carrusel de impresoras --}}
                         <div id="printer-carousel" class="flex overflow-hidden gap-4">
                             @foreach ($printers as $printer)
-                                <div
+                                <a href="/printers"
                                     class="flex-none w-64 bg-white rounded-lg shadow hover:shadow-xl transition duration-300 overflow-hidden">
                                     @if ($printer->printer->image)
                                         <img src="{{ asset('storage/' . $printer->printer->image) }}" alt="{{ $printer->printer->name }}"
@@ -38,7 +38,7 @@
                                         <h3 class="text-lg font-semibold text-gray-800">{{ $printer->name }}</h3>
                                         <p class="text-sm text-gray-600 mt-1">Status: {{ $printer->status }}</p>
                                     </div>
-                                </div>
+                                </a>
                             @endforeach
                         </div>
 

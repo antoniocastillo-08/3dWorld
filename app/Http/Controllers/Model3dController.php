@@ -67,11 +67,11 @@ class Model3dController extends Controller
         ]);
 
         // Validación personalizada para extensiones
-        if ($request->hasFile('image') && !in_array($request->file('image')->getClientOriginalExtension(), ['jpg', 'jpeg', 'png', 'gif'])) {
+        if ($request->hasFile('image') && !in_array(strtolower($request->file('image')->getClientOriginalExtension()), ['jpg', 'jpeg', 'png', 'gif'])) {
             return back()->withErrors(['image' => 'La imagen debe ser un archivo de tipo: jpg, jpeg, png, gif.']);
         }
 
-        if ($request->hasFile('file') && $request->file('file')->getClientOriginalExtension() !== 'stl') {
+        if ($request->hasFile('file') && strtolower($request->file('file')->getClientOriginalExtension()) !== 'stl') {
             return back()->withErrors(['file' => 'El archivo debe ser de tipo STL.']);
         }
 

@@ -3,7 +3,7 @@ import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
     server: {
-        host: true, // ← Esto es necesario para que ngrok pueda acceder al servidor Vite
+        host: true, // Allow access from other devices on the network
     },
     plugins: [
         laravel({

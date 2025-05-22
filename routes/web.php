@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Model3dController;
 use App\Http\Controllers\PrinterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FilamentController;
 
 //Rutas para el modelo 3D
 //|--------------------------------------------------------------------------
@@ -42,6 +43,12 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/printers/{printerId}', [PrinterController::class, 'destroy'])->name('printers.destroy');
 });
 
+//Rutas para la gestión de Filamentos
+//--------------------------------------------------------------------------
+Route::middleware(['auth'])->group(function () {
+    Route::get('/filaments', [FilamentController::class, 'create'])->name('filaments.create');
+    Route::post('/filaments/store', [FilamentController::class, 'store'])->name('filaments.store');
+});
 
 
 

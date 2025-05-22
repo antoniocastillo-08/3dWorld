@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePrinterRequest;
-use App\Http\Requests\UpdatePrinterRequest;
 use App\Models\Printer;
 use App\Models\UserPrinter;
+use App\Models\Filament;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,7 +19,9 @@ class PrinterController extends Controller
         $user= auth()->user();
         $printers = UserPrinter::where('user_id', $user->id)->with('printer')->get();
     
-        return view('printers.index', compact('printers'));
+        $filaments = Filament::where('filament_user_id', $user->id)->get();
+
+        return view('printers.index', compact('printers', 'filaments'));
     }
 
 

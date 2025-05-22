@@ -9,13 +9,9 @@ class Filament extends Model
 {
     /** @use HasFactory<\Database\Factories\FilamentFactory> */
     use HasFactory;
-    public function users()
+    public function user()
     {
-    return $this->belongsToMany(User::class, 'filament_user')->withPivot('quantity');
+    return $this->belongsTo(User::class, 'filament_user_id');
     }
 
-    public function printers()
-    {
-    return $this->belongsToMany(Printer::class, 'filament_printer');
-    }
 }

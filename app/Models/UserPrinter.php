@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Printer;
+use App\Models\User;
+use App\Models\FilamentPrinter;
+
 class UserPrinter extends Model
 {
     protected $table = 'print_users';
@@ -24,5 +28,8 @@ class UserPrinter extends Model
     public function printer()
     {
         return $this->belongsTo(Printer::class);
+    }
+    public function loadedFilaments() {
+        return $this->hasMany(FilamentPrinter::class);
     }
 }

@@ -50,6 +50,30 @@
         "image":"printers/halot_r6.jpg"
     },
     {
+        "name": "Bambu Lab H2D",
+        "model": "H2D",
+        "type": "FDM",
+        "brand": "Bambu Lab",
+        "print_volume": "325 x 320 x 325 mm",
+        "image":"printers/bambu_lab_h2d.jpg"
+    },
+    {
+        "name": "Bambu Lab A1",
+        "model": "A1",
+        "type": "FDM",
+        "brand": "Bambu Lab",
+        "print_volume": "256 x 256 x 256 mm",
+        "image":"printers/bambu_lab_A1-1.png"
+    },
+    {
+        "name": "Bambu Lab A1 Mini",
+        "model": "A1",
+        "type": "FDM",
+        "brand": "Bambu Lab",
+        "print_volume": "180 x 180 x 180 mm",
+        "image":"printers/bambu_lab_a1_mini.png"
+    },
+    {
         "name": "Elegoo Mars 3",
         "model": "Mars",
         "type": "SLA",

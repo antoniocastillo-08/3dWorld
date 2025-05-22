@@ -60,7 +60,7 @@ class User extends Authenticatable
     }
     public function filaments()
     {
-        return $this->belongsToMany(Filament::class, 'filament_user')->withPivot('quantity');
+        return $this->hasMany(Filament::class);
     }
     protected static function booted()
     {
