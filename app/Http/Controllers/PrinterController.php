@@ -8,6 +8,7 @@ use App\Models\UserPrinter;
 use App\Models\Filament;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\FilamentPrinter;
 
 class PrinterController extends Controller
 {
@@ -16,9 +17,9 @@ class PrinterController extends Controller
      */
     public function index()
     {
-        $user= auth()->user();
+        $user = auth()->user();
         $printers = UserPrinter::where('user_id', $user->id)->with('printer')->get();
-    
+
         $filaments = Filament::where('filament_user_id', $user->id)->get();
 
         return view('printers.index', compact('printers', 'filaments'));
@@ -27,18 +28,18 @@ class PrinterController extends Controller
 
     public function add()
     {
-        
-        $printers = Printer::all();  
+
+        $printers = Printer::all();
         $printersByBrand = $printers->groupBy('brand');
 
         return view('printers.add_printer', compact('printersByBrand'));
-    }    
+    }
 
     public function customize($printerId)
     {
         // Obtener la impresora seleccionada
         $printer = Printer::findOrFail($printerId);
-    
+
         // Retornar la vista del formulario con la impresora seleccionada
         return view('printers.attach_printer', compact('printer'));
     }
@@ -53,7 +54,7 @@ class PrinterController extends Controller
             'status' => 'required|in:Available,On Use,Not Available', // Estado
             'nozzle_size' => 'numeric|min:0.1', // Tamaño de la boquilla
         ]);
-    
+
         // Crear la relación en la tabla pivot
         UserPrinter::create([
             'user_id' => Auth::id(),
@@ -62,7 +63,7 @@ class PrinterController extends Controller
             'status' => $request->status,
             'nozzle_size' => $request->nozzle_size,
         ]);
-    
+
         // Redirigir con un mensaje de éxito
         return redirect()->route('printers.index')->with('success', 'Impresora añadida correctamente.');
     }
@@ -78,7 +79,7 @@ class PrinterController extends Controller
      */
     public function store(StorePrinterRequest $request)
     {
-        
+
     }
 
     /**
@@ -94,14 +95,27 @@ class PrinterController extends Controller
      */
     public function edit($id)
     {
-        $userPrinter = UserPrinter::findOrFail($id);
-    
-        // Verifica si el usuario es el propietario o tiene el rol de administrador
+        // Obtener la impresora específica
+        $userPrinter = UserPrinter::with('printer')->findOrFail($id);
+
+        // Verificar si el usuario es el propietario o tiene el rol de administrador
         if (auth()->id() !== $userPrinter->user_id && !auth()->user()->hasRole('admin')) {
             abort(403, 'Unauthorized action.');
         }
-    
-        return view('printers.edit', compact('userPrinter'));
+
+        // Obtener los filamentos disponibles en el inventario del usuario
+        $filaments = Filament::where('filament_user_id', auth()->id())->get();
+
+        // Obtener los filamentos asignados a la impresora desde la tabla intermedia
+        $filamentsPrinters = FilamentPrinter::where('printer_user_id', $id)
+            ->whereHas('filament', function ($query) {
+                $query->where('filament_user_id', auth()->id());
+            })
+            ->with('filament') // Cargar la relación con el modelo Filament
+            ->get();
+
+        // Retornar la vista con las tres variables
+        return view('printers.edit', compact('userPrinter', 'filaments', 'filamentsPrinters'));
     }
     /**
      * Update the specified resource in storage.
@@ -109,26 +123,26 @@ class PrinterController extends Controller
     public function update(Request $request, $id)
     {
         $userPrinter = UserPrinter::findOrFail($id);
-    
+
         // Verifica si el usuario es el propietario o tiene el rol de administrador
         if (auth()->id() !== $userPrinter->user_id && !auth()->user()->hasRole('admin')) {
             abort(403, 'Unauthorized action.');
         }
-    
+
         // Validar los datos recibidos
         $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|in:Available,On Use,Not Available',
             'nozzle_size' => 'nullable|numeric|min:0.1',
         ]);
-    
+
         // Actualizar los datos en la tabla user_printers
         $userPrinter->update([
             'name' => $request->name,
             'status' => $request->status,
             'nozzle_size' => $request->nozzle_size,
         ]);
-    
+
         return redirect()->route('printers.index')->with('success', 'Impresora actualizada correctamente.');
     }
 
@@ -138,14 +152,54 @@ class PrinterController extends Controller
     public function destroy($id)
     {
         $userPrinter = UserPrinter::findOrFail($id);
-    
+
         // Verifica si el usuario es el propietario o tiene el rol de administrador
         if (auth()->id() !== $userPrinter->user_id && !auth()->user()->hasRole('admin')) {
             abort(403, 'Unauthorized action.');
         }
-    
+
         $userPrinter->delete();
-    
+
         return redirect()->route('printers.index')->with('success', 'Printer deleted successfully.');
+    }
+    public function addFilament(Request $request, $printerId, $filamentId)
+    {
+        // Buscar la impresora y el filamento
+        $printer = UserPrinter::findOrFail($printerId);
+        $filament = Filament::findOrFail($filamentId);
+    
+        // Verificar si el filamento ya está asignado a la impresora
+        $exists = FilamentPrinter::where('printer_user_id', $printerId)
+            ->where('filament_user_id', $filamentId)
+            ->exists();
+    
+        if ($exists) {
+            return redirect()->back()->with('info', 'This filament is already assigned to the printer.');
+        }
+    
+        // Crear la relación en la tabla intermedia
+        FilamentPrinter::create([
+            'printer_user_id' => $printerId,
+            'filament_user_id' => $filamentId,
+        ]);
+    
+        return redirect()->back()->with('success', 'Filament added to the printer successfully.');
+    }
+
+    public function removeFilament($printerId, $filamentId)
+    {
+        // Buscar la relación específica en la tabla intermedia
+        $relation = FilamentPrinter::where('printer_user_id', $printerId)
+            ->where('filament_user_id', $filamentId)
+            ->first();
+
+        if ($relation) {
+            // Eliminar la relación específica
+            $relation->delete();
+        } else {
+            return redirect()->back()->with('error', 'The filament is not assigned to this printer.');
+        }
+
+        return redirect()->back()->with('success', 'Filament removed from the printer successfully.');
     }
 }

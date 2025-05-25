@@ -3,7 +3,7 @@
 @section('content')
     <div class="flex justify-between mx-6 mt-2 mb-3">
         <a href="/filaments" class="inline-block bg-green-600 text-white p-4 rounded hover:bg-indigo-700">
-            Filaments
+            Add Filaments
         </a>
         <a href="printers/add" class="inline-block bg-indigo-600 text-white px-7 py-4 rounded hover:bg-indigo-700">
             Add print
@@ -39,30 +39,36 @@
             </div>
         @endif
     </div>
-    <div class="flex justify-center mx-20 my-10 bg-gray-300">
-        <table class="table-auto border border-gray-300 w-full text-sm text-center">
-            <thead class="bg-gray-100">
-                <tr>
-                    <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Material</th>
-                    <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Color</th>
-                    <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Weight</th>
-                    <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Diameter</th>
-                    <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Brand</th>
-                    <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Amount</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($filaments as $filament)
-                    <tr class="hover:bg-gray-50">
-                        <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->material }}</td>
-                        <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->color }}</td>
-                        <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->weight }}</td>
-                        <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->diameter }}</td>
-                        <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->brand }}</td>
-                        <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->amount }}</td>
+     <div class="flex justify-center mx-20 my-10 bg-gray-100">
+        <div class="overflow-x-auto w-full">
+            <table class="table-auto border border-gray-300 w-full text-xl text-center">
+                <thead class="bg-gray-400">
+                    <tr>
+                        <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Material</th>
+                        <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Color</th>
+                        <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Weight</th>
+                        <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Diameter</th>
+                        <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Brand</th>
+                        <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Amount</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($filaments as $filament)
+                        <tr class="hover:bg-gray-50">
+                            <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->material }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->color }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->weight }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->diameter }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->brand }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-gray-600 font-bold">{{ $filament->amount }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    
+
+    
 @endsection

@@ -115,18 +115,25 @@
                     </div>
 
                     {{-- Botón de Like --}}
-                    <form action="{{ $model->likedBy->contains(auth()->id()) ? route('models3d.unlike', $model->id) : route('models3d.like', $model->id) }}" method="POST" class="absolute top-2 right-2">
+                    <form
+                        action="{{ $model->likedBy->contains(auth()->id()) ? route('models3d.unlike', $model->id) : route('models3d.like', $model->id) }}"
+                        method="POST" class="absolute top-2 right-2">
                         @csrf
-                        <button type="submit" class="text-gray-900 p-1 bg-gradient-to-t from-white to-transparent rounded-full hover:text-red-500 transition">
+                        <button type="submit"
+                            class="text-gray-900 p-1 bg-gradient-to-t from-white to-transparent rounded-full hover:text-red-500 transition">
                             @if ($model->likedBy->contains(auth()->id()))
                                 {{-- Ícono de "liked" --}}
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500" fill="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                                 </svg>
                             @else
                                 {{-- Ícono de "no liked" --}}
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                                 </svg>
                             @endif
                         </button>
@@ -136,7 +143,7 @@
         </div>
     </div>
 
-    </div>
+
 
     {{-- Script para el carrusel --}}
     <script>

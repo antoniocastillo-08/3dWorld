@@ -6,20 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class FilamentPrinter extends Model
 {
-    protected $table = 'filament_printer';
+    protected $table = 'filaments_printers';
 
     protected $fillable = [
-        'printer_id',
-        'filament_id',
+        'printer_user_id',
+        'filament_user_id',
     ];
-
-    public function printer()
-    {
-        return $this->belongsTo(Printer::class);
-    }
 
     public function filament()
     {
-        return $this->belongsTo(Filament::class);
+        return $this->belongsTo(Filament::class, 'filament_user_id');
+    }
+
+    public function printer()
+    {
+        return $this->belongsTo(UserPrinter::class, 'printer_user_id');
     }   
 }

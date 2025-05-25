@@ -40,6 +40,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/printers/{printerId}/edit', action: [PrinterController::class, 'edit'])->name('printers.edit');
     Route::put('/printers/{printerId}', [PrinterController::class, 'update'])->name('printers.update');
     
+    
+    Route::post('/printers/{printer}/filaments/{filament}/add', [PrinterController::class, 'addFilament'])->name('printers.addFilament');
+    Route::delete('/printers/{printer}/filaments/{filament}/remove', [PrinterController::class, 'removeFilament'])->name('printers.removeFilament');
+
+
+
     Route::delete('/printers/{printerId}', [PrinterController::class, 'destroy'])->name('printers.destroy');
 });
 

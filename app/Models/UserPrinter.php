@@ -29,7 +29,7 @@ class UserPrinter extends Model
     {
         return $this->belongsTo(Printer::class);
     }
-    public function loadedFilaments() {
-        return $this->hasMany(FilamentPrinter::class);
+    public function filaments() {
+        return $this->belongsToMany(FilamentPrinter::class);
     }
 }
