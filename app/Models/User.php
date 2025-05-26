@@ -49,19 +49,16 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function printers()
-    {
-        return $this->hasMany(UserPrinter::class);
+    public function workstation(){
+        return $this->belongsTo(Workstation::class);
     }
 
     public function likedModels()
     {
         return $this->belongsToMany(Model3d::class, 'like')->withTimestamps();
     }
-    public function filaments()
-    {
-        return $this->hasMany(Filament::class);
-    }
+
+
     protected static function booted()
     {
         static::created(function ($user) {

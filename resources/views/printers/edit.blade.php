@@ -1,8 +1,16 @@
 @extends('app')
 @section('title', 'Edit My Printer')
 @section('content')
-    <div
-        class="container bg-gradient-to-b from-white to-gray-200 py-20 mx-auto my-8 px-4 text-xl border border-gray-400 rounded-lg shadow-lg">
+    <div class="container bg-gradient-to-b from-white to-gray-200 py-20 mx-auto my-8 px-4 text-xl border border-gray-400 rounded-lg shadow-lg">
+        <div class="flex justify-end items-center mb-8">
+            <h1 class=" text-3xl font-bold
+                @if ($userPrinter->status === 'Available') text-green-600 
+                @elseif ($userPrinter->status === 'On Use') text-yellow-600 
+                @elseif ($userPrinter->status === 'Not Available') text-red-600 
+                @endif">
+                {{ $userPrinter->status }}
+            </h1>
+        </div>
         <div class="flex flex-col md:flex-row items-center md:justify-around mx-4 md:mx-20">
             <h1 class="text-2xl md:text-5xl font-bold mb-4 md:mb-0 text-center md:text-left">{{ $userPrinter->name }}</h1>
         
@@ -10,7 +18,7 @@
                 class="w-64 h-64 md:w-80 md:h-80 rounded-lg border border-black">
         </div>
 
-        <form action="{{ route('printers.update', $userPrinter->id) }}" method="POST">
+        <form class="mx-40" action="{{ route('printers.update', $userPrinter->id) }}" method="POST">
             @csrf
             @method('PUT')
 
@@ -80,7 +88,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($filamentsPrinters as $filamentPrinter)
+                @forelse ($filamentsPrinters as $filamentPrinter)
                     @if ($filamentPrinter->filament) {{-- Verificar que la relación no sea null --}}
                         <tr class="hover:bg-gray-50">
                             <td class="border border-gray-300 px-4 py-2">{{ $filamentPrinter->filament->material }}</td>
@@ -99,7 +107,13 @@
                             </td>
                         </tr>
                     @endif
-                @endforeach
+                @empty
+                    <tr>
+                        <td colspan="6" class="border border-gray-300 px-4 py-2 text-center text-gray-500">
+                            No loaded filaments ...
+                        </td>
+                    </tr>
+                @endforelse
             </tbody>
         </table>
     </div>

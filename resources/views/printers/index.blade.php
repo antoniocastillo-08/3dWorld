@@ -39,9 +39,9 @@
             </div>
         @endif
     </div>
-     <div class="flex justify-center mx-20 my-10 bg-gray-100">
-        <div class="overflow-x-auto w-full">
-            <table class="table-auto border border-gray-300 w-full text-xl text-center">
+    <div class="flex justify-center mx-4 my-10">
+        <div class="overflow-x-auto w-full max-w-screen-lg">
+            <table class="table-auto border border-gray-300 w-full text-sm text-center">
                 <thead class="bg-gray-400">
                     <tr>
                         <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Material</th>
@@ -53,7 +53,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($filaments as $filament)
+                    @forelse ($filaments as $filament)
                         <tr class="hover:bg-gray-50">
                             <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->material }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->color }}</td>
@@ -62,12 +62,26 @@
                             <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->brand }}</td>
                             <td class="border border-gray-300 px-4 py-2 text-gray-600 font-bold">{{ $filament->amount }}</td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="6" class="border border-gray-300 px-4 py-2 text-center text-gray-500">
+                                No filaments available
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
+        <div class="flex flex-col items-center justify-around mx-4">
+            <button id="toggleFilaments" class="bg-blue-500 text-white px-8 py-2 rounded hover:bg-blue-700">
+                Schedule purchase
+            </button>
+            <button id="toggleFilaments" class="bg-blue-500 text-white px-8 py-2 rounded hover:bg-blue-700">
+                Order Now
+            </button>            
+        </div>
     </div>
-
+</div>
     
 
     

@@ -20,9 +20,9 @@ class UserPrinter extends Model
         'nozzle_size',
     ];
 
-    public function user()
+    public function workstation()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(related: Workstation::class);
     }
 
     public function printer()

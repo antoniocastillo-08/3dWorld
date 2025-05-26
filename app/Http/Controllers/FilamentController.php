@@ -87,6 +87,15 @@ class FilamentController extends Controller
      */
     public function destroy(Filament $filament)
     {
-        //
+        // Verifica si el filamento existe
+        if (!$filament) {
+            return redirect()->route('printers.index')->with('error', 'Filament not found.');
+        }
+
+        // Elimina el filamento
+        $filament->delete();
+
+        // Redirige al listado de filamentos con un mensaje de éxito
+        return redirect()->route('printers.index')->with('success', 'Filament deleted successfully.');
     }
 }

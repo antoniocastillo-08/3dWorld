@@ -18,7 +18,7 @@ class PrinterController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $printers = UserPrinter::where('user_id', $user->id)->with('printer')->get();
+        $printers = UserPrinter::where('workstation_id', $user->id)->with('printer')->get();
 
         $filaments = Filament::where('filament_user_id', $user->id)->get();
 

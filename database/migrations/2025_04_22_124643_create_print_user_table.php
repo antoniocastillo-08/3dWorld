@@ -10,7 +10,7 @@ class CreatePrintUserTable extends Migration
     {
         Schema::create('print_users', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('workstation_id')->constrained('workstations')->onDelete('cascade');
             $table->foreignId('printer_id')->constrained('printers')->onDelete('cascade');
         
             $table->string('name'); // nombre personalizado que el usuario da a esta impresora
