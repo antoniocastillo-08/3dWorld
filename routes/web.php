@@ -7,6 +7,7 @@ use App\Http\Controllers\Model3dController;
 use App\Http\Controllers\PrinterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FilamentController;
+use App\Http\Controllers\CompanyController;
 
 //Rutas para el modelo 3D
 //|--------------------------------------------------------------------------
@@ -68,6 +69,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/company/options', [CompanyController::class, 'showOptions'])->name('company.options');
+    Route::post('/company/create', [CompanyController::class, 'createCompany'])->name('company.create');
+    Route::post('/company/join', [CompanyController::class, 'joinCompany'])->name('company.join');
+    Route::post('/company/no-company', [CompanyController::class, 'noCompany'])->name('company.noCompany');
 });
 
 Route::get('/models3d/upload', function () {

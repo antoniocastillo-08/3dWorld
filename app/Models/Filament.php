@@ -9,9 +9,9 @@ class Filament extends Model
 {
     /** @use HasFactory<\Database\Factories\FilamentFactory> */
     use HasFactory;
-    public function user()
+    public function workstation()
     {
-    return $this->belongsTo(User::class, 'filament_user_id');
+    return $this->belongsTo(Workstation::class, 'workstation_id');
     }
     public function printers()
 {

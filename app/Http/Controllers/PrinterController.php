@@ -17,14 +17,20 @@ class PrinterController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
-        $printers = UserPrinter::where('workstation_id', $user->id)->with('printer')->get();
-
-        $filaments = Filament::where('filament_user_id', $user->id)->get();
-
+        $workstationId = Auth::user()->workstation_id;
+    
+        // Si el usuario no tiene una estación de trabajo, no mostrar impresoras
+        if (is_null($workstationId)) {
+            $printers = collect(); // Colección vacía
+            $filaments = collect(); // Colección vacía
+        } else {
+            // Filtrar impresoras y filamentos por workstation_id
+            $printers = UserPrinter::where('workstation_id', $workstationId)->with('printer')->get();
+            $filaments = Filament::where('filament_user_id', $workstationId)->get();
+        }
+    
         return view('printers.index', compact('printers', 'filaments'));
     }
-
 
     public function add()
     {
@@ -47,25 +53,23 @@ class PrinterController extends Controller
 
     public function attach(Request $request)
     {
-        // Validar los datos recibidos
         $request->validate([
             'printer_id' => 'required|exists:printers,id',
-            'name' => 'required|string|max:255', // Nombre personalizado
-            'status' => 'required|in:Available,On Use,Not Available', // Estado
-            'nozzle_size' => 'numeric|min:0.1', // Tamaño de la boquilla
+            'name' => 'required|string|max:255',
+            'status' => 'required|in:Available,On Use,Not Available',
+            'nozzle_size' => 'nullable|numeric|min:0.1',
         ]);
-
-        // Crear la relación en la tabla pivot
+    
+        // Crear una nueva relación en la tabla UserPrinter
         UserPrinter::create([
-            'user_id' => Auth::id(),
             'printer_id' => $request->printer_id,
             'name' => $request->name,
             'status' => $request->status,
             'nozzle_size' => $request->nozzle_size,
+            'workstation_id' => Auth::user()->workstation_id, // Asociar a la estación de trabajo del usuario
         ]);
-
-        // Redirigir con un mensaje de éxito
-        return redirect()->route('printers.index')->with('success', 'Impresora añadida correctamente.');
+    
+        return redirect()->route('printers.index')->with('success', 'Printer attached successfully.');
     }
     /**
      * Show the form for creating a new resource.

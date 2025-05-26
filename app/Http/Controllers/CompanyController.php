@@ -1,66 +1,70 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCompanyRequest;
-use App\Http\Requests\UpdateCompanyRequest;
 use App\Models\Company;
+use App\Models\Workstation;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function showOptions()
     {
-        //
+        // Obtener todas las empresas disponibles
+        $companies = Company::all();
+
+        // Pasar las empresas a la vista
+        return view('company.options', compact('companies'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function createCompany(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255|unique:companies,name',
+        ]);
+
+        // Crear la empresa
+        $company = Company::create([
+            'name' => $request->name,
+        ]);
+
+        // Crear una estación de trabajo con el mismo nombre que la empresa
+        $workstation = Workstation::create([
+            'name' => $company->name,
+            'company_id' => $company->id,
+        ]);
+
+        // Asignar la estación de trabajo al usuario
+        $user = Auth::user();
+        $user->workstation_id = $workstation->id;
+        $user->save();
+
+        return redirect()->route('dashboard')->with('success', 'Company and workstation created successfully.');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreCompanyRequest $request)
+    public function joinCompany(Request $request)
     {
-        //
+        $request->validate([
+            'company_id' => 'required|exists:companies,id',
+        ]);
+
+        // Asignar la estación de trabajo de la empresa al usuario
+        $workstation = Workstation::where('company_id', $request->company_id)->first();
+        $user = Auth::user();
+        $user->workstation_id = $workstation->id;
+        $user->save();
+
+        return redirect()->route('dashboard')->with('success', 'You have joined the company successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Company $company)
+    public function noCompany()
     {
-        //
+        $user = Auth::user();
+        $user->workstation_id = null;
+        $user->save();
+
+        return redirect()->route('dashboard')->with('success', 'You have chosen not to be part of a company.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Company $company)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateCompanyRequest $request, Company $company)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Company $company)
-    {
-        //
-    }
 }

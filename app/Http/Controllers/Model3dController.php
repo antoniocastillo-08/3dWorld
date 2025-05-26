@@ -37,7 +37,7 @@ class Model3dController extends Controller
         $models = $query->get();
 
         $printers = auth()->check()
-            ? UserPrinter::where('user_id', auth()->id())->with('printer')->get()
+            ? UserPrinter::where('workstation_id', auth()->id())->with('printer')->get()
             : collect(); // Si no está autenticado, devuelve una colección vacía
 
         // Pasar las variables a la vista

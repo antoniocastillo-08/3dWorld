@@ -9,6 +9,9 @@ class Company extends Model
 {
     /** @use HasFactory<\Database\Factories\CompanyFactory> */
     use HasFactory;
+    protected $fillable = [
+        'name',
+    ];
 
     public function workstation(){
         return $this->hasMany(related: Workstation::class);

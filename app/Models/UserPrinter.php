@@ -13,7 +13,7 @@ class UserPrinter extends Model
     protected $table = 'print_users';
 
     protected $fillable = [
-        'user_id',
+        'workstation_id',
         'printer_id',
         'name',
         'status',

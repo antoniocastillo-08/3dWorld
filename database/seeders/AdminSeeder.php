@@ -19,7 +19,7 @@ class AdminSeeder extends Seeder
             'edit models',
             'delete models',
             'create models',
-            'delete users', 
+            'delete users',
         ];
 
         foreach ($permissions as $permission) {
@@ -32,12 +32,22 @@ class AdminSeeder extends Seeder
         // Asignar todos los permisos al rol de administrador
         $adminRole->syncPermissions($permissions);
 
+        // Crear la compañía "Admin"
+        $adminCompany = \App\Models\Company::firstOrCreate(['name' => 'Admin']);
+
+        // Crear una estación de trabajo para la compañía "Admin"
+        $adminWorkstation = \App\Models\Workstation::firstOrCreate([
+            'name' => 'Admin Workstation',
+            'company_id' => $adminCompany->id,
+        ]);
+
         // Crear el usuario administrador
         $admin = User::updateOrCreate(
             ['email' => 'admin@3dworld.com'], // Evitar duplicados
             [
                 'name' => 'CastilloAdmin',
-                'password' => bcrypt('contraseña'), 
+                'password' => bcrypt('contraseña'),
+                'workstation_id' => $adminWorkstation->id, // Asignar la estación de trabajo
             ]
         );
 

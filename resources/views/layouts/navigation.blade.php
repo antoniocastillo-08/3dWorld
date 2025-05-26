@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('models3d.index')">
                         {{ __('Models') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('company.options')">
+                        {{ __('Company') }}
+                    </x-nav-link>
                 </div>
             </div>
 

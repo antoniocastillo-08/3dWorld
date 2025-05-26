@@ -9,6 +9,11 @@ class Workstation extends Model
 {
     /** @use HasFactory<\Database\Factories\WorkstationFactory> */
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'company_id',
+    ];
+
 
     public function company()
     {
