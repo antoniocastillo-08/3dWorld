@@ -20,8 +20,8 @@ return new class extends Migration
             $table->integer('weight');
             $table->integer('amount');
 
-            $table->unsignedBigInteger('filament_user_id');
-            $table->foreign('filament_user_id')->references('id')->on('workstations')->onDelete('cascade');
+            $table->unsignedBigInteger('workstation_id');
+            $table->foreign('workstation_id')->references('id')->on('workstations')->onDelete('cascade');
 
             $table->timestamps();
         });

@@ -10,12 +10,12 @@ class FilamentPrinter extends Model
 
     protected $fillable = [
         'printer_user_id',
-        'filament_user_id',
+        'filament_id',
     ];
 
     public function filament()
     {
-        return $this->belongsTo(Filament::class, 'filament_user_id');
+        return $this->belongsTo(Filament::class, 'filament_id');
     }
 
     public function printer()

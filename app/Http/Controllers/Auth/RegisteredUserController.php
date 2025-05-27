@@ -43,16 +43,9 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
     
-        // Crear una estación de trabajo individual para el usuario
-        $workstation = Workstation::create([
-            'name' => $user->name . "'s Workstation",
-            'type' => 'individual',
-        ]);
-    
-        // Asociar la estación de trabajo al usuario
-        $user->workstation_id = $workstation->id;
         $user->save();
-    
+
+
         event(new Registered($user));
     
         Auth::login($user);
@@ -73,6 +66,6 @@ class RegisteredUserController extends Controller
             $user->save();
         }
     
-        return redirect()->intended($this->redirectPath());
+        return redirect()->intended(route('dashboard')); // Cambia 'dashboard' por la ruta que desees
     }
 }

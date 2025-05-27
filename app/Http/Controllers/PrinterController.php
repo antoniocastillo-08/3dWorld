@@ -26,7 +26,7 @@ class PrinterController extends Controller
         } else {
             // Filtrar impresoras y filamentos por workstation_id
             $printers = UserPrinter::where('workstation_id', $workstationId)->with('printer')->get();
-            $filaments = Filament::where('filament_user_id', $workstationId)->get();
+            $filaments = Filament::where('workstation_id', $workstationId)->get();
         }
     
         return view('printers.index', compact('printers', 'filaments'));
@@ -101,23 +101,20 @@ class PrinterController extends Controller
     {
         // Obtener la impresora específica
         $userPrinter = UserPrinter::with('printer')->findOrFail($id);
-
+    
         // Verificar si el usuario es el propietario o tiene el rol de administrador
         if (auth()->id() !== $userPrinter->user_id && !auth()->user()->hasRole('admin')) {
             abort(403, 'Unauthorized action.');
         }
-
+    
         // Obtener los filamentos disponibles en el inventario del usuario
-        $filaments = Filament::where('filament_user_id', auth()->id())->get();
-
+        $filaments = Filament::where('workstation_id', auth()->user()->workstation_id)->get();
+    
         // Obtener los filamentos asignados a la impresora desde la tabla intermedia
         $filamentsPrinters = FilamentPrinter::where('printer_user_id', $id)
-            ->whereHas('filament', function ($query) {
-                $query->where('filament_user_id', auth()->id());
-            })
             ->with('filament') // Cargar la relación con el modelo Filament
             ->get();
-
+    
         // Retornar la vista con las tres variables
         return view('printers.edit', compact('userPrinter', 'filaments', 'filamentsPrinters'));
     }
@@ -166,6 +163,7 @@ class PrinterController extends Controller
 
         return redirect()->route('printers.index')->with('success', 'Printer deleted successfully.');
     }
+
     public function addFilament(Request $request, $printerId, $filamentId)
     {
         // Buscar la impresora y el filamento
@@ -174,36 +172,47 @@ class PrinterController extends Controller
     
         // Verificar si el filamento ya está asignado a la impresora
         $exists = FilamentPrinter::where('printer_user_id', $printerId)
-            ->where('filament_user_id', $filamentId)
+            ->where('filament_id', $filamentId)
             ->exists();
     
         if ($exists) {
             return redirect()->back()->with('info', 'This filament is already assigned to the printer.');
         }
     
+        // Verificar si hay suficiente cantidad del filamento
+        if ($filament->amount <= 0) {
+            return redirect()->back()->with('error', 'Not enough filament available.');
+        }
+    
         // Crear la relación en la tabla intermedia
         FilamentPrinter::create([
             'printer_user_id' => $printerId,
-            'filament_user_id' => $filamentId,
+            'filament_id' => $filamentId,
         ]);
+    
+        // Reducir el amount del filamento
+        $filament->decrement('amount');
     
         return redirect()->back()->with('success', 'Filament added to the printer successfully.');
     }
+public function removeFilament($printerId, $filamentId)
+{
+    // Buscar la relación específica en la tabla intermedia
+    $relation = FilamentPrinter::where('printer_user_id', $printerId)
+        ->where('filament_id', $filamentId)
+        ->first();
 
-    public function removeFilament($printerId, $filamentId)
-    {
-        // Buscar la relación específica en la tabla intermedia
-        $relation = FilamentPrinter::where('printer_user_id', $printerId)
-            ->where('filament_user_id', $filamentId)
-            ->first();
+    if ($relation) {
+        // Eliminar la relación específica
+        $relation->delete();
 
-        if ($relation) {
-            // Eliminar la relación específica
-            $relation->delete();
-        } else {
-            return redirect()->back()->with('error', 'The filament is not assigned to this printer.');
-        }
+        // Incrementar el amount del filamento
+        $filament = Filament::findOrFail($filamentId);
+        $filament->increment('amount');
 
         return redirect()->back()->with('success', 'Filament removed from the printer successfully.');
+    } else {
+        return redirect()->back()->with('error', 'The filament is not assigned to this printer.');
     }
+}
 }

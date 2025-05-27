@@ -45,8 +45,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/printers/{printer}/filaments/{filament}/add', [PrinterController::class, 'addFilament'])->name('printers.addFilament');
     Route::delete('/printers/{printer}/filaments/{filament}/remove', [PrinterController::class, 'removeFilament'])->name('printers.removeFilament');
 
-
-
     Route::delete('/printers/{printerId}', [PrinterController::class, 'destroy'])->name('printers.destroy');
 });
 
@@ -55,6 +53,11 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/filaments', [FilamentController::class, 'create'])->name('filaments.create');
     Route::post('/filaments/store', [FilamentController::class, 'store'])->name('filaments.store');
+    
+    Route::get('/filaments/edit', [FilamentController::class, 'edit'])->name('filaments.edit');
+    Route::put('/filaments/update', [FilamentController::class, 'update'])->name('filaments.update');
+    
+    Route::delete('/filaments/{filament}', [FilamentController::class, 'destroy'])->name('filaments.destroy');
 });
 
 

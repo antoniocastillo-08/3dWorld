@@ -14,14 +14,11 @@ return new class extends Migration
         Schema::create('filaments_printers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('printer_user_id');
-            $table->unsignedBigInteger('filament_user_id');
-            $table->integer('amount_assigned')->default(0); // Cantidad asignada
-
+            $table->unsignedBigInteger('filament_id');
             $table->timestamps();
-
+        
             $table->foreign('printer_user_id')->references('id')->on('print_users')->onDelete('cascade');
-            $table->foreign('filament_user_id')->references('id')->on('filaments')->onDelete('cascade');
-            $table->unique(['printer_user_id', 'filament_user_id']);
+            $table->foreign('filament_id')->references('id')->on('filaments')->onDelete('cascade');
         });
     }
 

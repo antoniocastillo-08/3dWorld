@@ -7,15 +7,26 @@ use Illuminate\Database\Eloquent\Model;
 
 class Filament extends Model
 {
-    /** @use HasFactory<\Database\Factories\FilamentFactory> */
     use HasFactory;
+    
+    protected $fillable = [
+        'material',
+        'brand',
+        'color',
+        'diameter',
+        'weight',
+        'amount',
+        'workstation_id',
+    ];
+
+
     public function workstation()
     {
-    return $this->belongsTo(Workstation::class, 'workstation_id');
+        return $this->belongsTo(Workstation::class, 'workstation_id');
     }
     public function printers()
-{
-    return $this->belongsToMany(UserPrinter::class, 'filaments_printers', 'filament_user_id', 'printer_user_id');
-}
+    {
+        return $this->belongsToMany(UserPrinter::class, 'filaments_printers', 'filament_user_id', 'printer_user_id');
+    }
 
 }

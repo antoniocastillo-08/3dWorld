@@ -8,7 +8,6 @@
         <a href="printers/add" class="inline-block bg-indigo-600 text-white px-7 py-4 rounded hover:bg-indigo-700">
             Add print
         </a>
-
     </div>
 
     <div
@@ -20,7 +19,8 @@
         @else
             <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
                 @foreach ($printers as $userPrinter)
-                    <a href="{{ route('printers.edit', $userPrinter->id) }}" class=" bg-white border border-black shadow-md rounded-lg p-4 hover:shadow-2xl transition-shadow duration-300">
+                    <a href="{{ route('printers.edit', $userPrinter->id) }}"
+                        class=" bg-white border border-black shadow-md rounded-lg p-4 hover:shadow-2xl transition-shadow duration-300">
                         @if ($userPrinter->printer->image)
                             <img src="{{ asset('storage/' . $userPrinter->printer->image) }}" alt="{{ $userPrinter->printer->name }}"
                                 class="w-full h-48 rounded-lg border border-black mb-4">
@@ -28,10 +28,10 @@
                         <p class="text-sm text-gray-900">Nick: {{ $userPrinter->name }}</p>
                         <h3 class="text-lg font-semibold text-gray-500">{{ $userPrinter->printer->name }}</h3>
                         <p class="text-3sm font-semibold 
-                            @if ($userPrinter->status === 'Available') text-green-600 
-                            @elseif ($userPrinter->status === 'On Use') text-yellow-600 
-                            @elseif ($userPrinter->status === 'Not Available') text-red-600 
-                            @endif">
+                                        @if ($userPrinter->status === 'Available') text-green-600 
+                                        @elseif ($userPrinter->status === 'On Use') text-yellow-600 
+                                        @elseif ($userPrinter->status === 'Not Available') text-red-600 
+                                        @endif">
                             Status: {{ $userPrinter->status }}
                         </p>
                     </a>
@@ -39,8 +39,10 @@
             </div>
         @endif
     </div>
-    <div class="flex justify-center mx-4 my-10">
-        <div class="overflow-x-auto w-full max-w-screen-lg">
+
+    <div class="flex justify-center m-4">
+        <div class="overflow-x-auto w-full  max-w-screen-lg">
+
             <table class="table-auto border border-gray-300 w-full text-sm text-center">
                 <thead class="bg-gray-400">
                     <tr>
@@ -50,39 +52,86 @@
                         <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Diameter</th>
                         <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Brand</th>
                         <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Amount</th>
+                        <th class="border border-gray-300 px-4 py-2 font-medium text-gray-700">Actions</th>
+                        <!-- Nueva columna -->
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($filaments as $filament)
                         <tr class="hover:bg-gray-50">
-                            <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->material }}</td>
-                            <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->color }}</td>
-                            <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->weight }}</td>
-                            <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->diameter }}</td>
-                            <td class="border border-gray-300 px-4 py-2 text-gray-600">{{ $filament->brand }}</td>
-                            <td class="border border-gray-300 px-4 py-2 text-gray-600 font-bold">{{ $filament->amount }}</td>
+                            <td class="border border-gray-300 px-4 py-2 text-gray-600">
+                                <span class="view-mode">{{ $filament->material }}</span>
+                                <input type="text" name="filaments[{{ $filament->id }}][material]"
+                                    value="{{ $filament->material }}"
+                                    class="edit-mode border border-gray-300 rounded px-2 py-1 w-full hidden">
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2 text-gray-600">
+                                <span class="view-mode">{{ $filament->color }}</span>
+                                <input type="text" name="filaments[{{ $filament->id }}][color]" value="{{ $filament->color }}"
+                                    class="edit-mode border border-gray-300 rounded px-2 py-1 w-full hidden">
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2 text-gray-600">
+                                <span class="view-mode">{{ $filament->weight }}</span>
+                                <input type="number" name="filaments[{{ $filament->id }}][weight]"
+                                    value="{{ $filament->weight }}"
+                                    class="edit-mode border border-gray-300 rounded px-2 py-1 w-full hidden">
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2 text-gray-600">
+                                <span class="view-mode">{{ $filament->diameter }}</span>
+                                <input type="number" step="0.01" name="filaments[{{ $filament->id }}][diameter]"
+                                    value="{{ $filament->diameter }}"
+                                    class="edit-mode border border-gray-300 rounded px-2 py-1 w-full hidden">
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2 text-gray-600">
+                                <span class="view-mode">{{ $filament->brand }}</span>
+                                <input type="text" name="filaments[{{ $filament->id }}][brand]" value="{{ $filament->brand }}"
+                                    class="edit-mode border border-gray-300 rounded px-2 py-1 w-full hidden">
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2 text-gray-600">
+                                <span class="view-mode">{{ $filament->amount }}</span>
+                                <input type="number" name="filaments[{{ $filament->id }}][amount]"
+                                    value="{{ $filament->amount }}"
+                                    class="edit-mode border border-gray-300 rounded px-2 py-1 w-full hidden">
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2 text-gray-600">
+                                <!-- Botón Remove -->
+                                <form method="POST" action="{{ route('filaments.destroy', $filament->id) }}"
+                                    onsubmit="return confirm('Are you sure you want to remove this filament?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
+                                        Remove
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="border border-gray-300 px-4 py-2 text-center text-gray-500">
+                            <td colspan="7" class="border border-gray-300 px-4 py-2 text-center text-gray-500">
                                 No filaments available
                             </td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
+            
         </div>
-        <div class="flex flex-col items-center justify-around mx-4">
-            <button id="toggleFilaments" class="bg-blue-500 text-white px-8 py-2 rounded hover:bg-blue-700">
-                Schedule purchase
-            </button>
-            <button id="toggleFilaments" class="bg-blue-500 text-white px-8 py-2 rounded hover:bg-blue-700">
-                Order Now
-            </button>            
+        <div class="ml-20 text-right">
+            <a href="{{ route('filaments.edit') }}" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-700">
+                Edit
+            </a>
         </div>
     </div>
-</div>
-    
 
-    
+    <script>
+        document.getElementById('edit-button').addEventListener('click', function () {
+            // Mostrar los inputs y ocultar los spans
+            document.querySelectorAll('.view-mode').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.edit-mode').forEach(el => el.classList.remove('hidden'));
+
+            // Mostrar el botón de guardar y ocultar el botón de editar
+            document.getElementById('edit-button').classList.add('hidden');
+            document.getElementById('save-button').classList.remove('hidden');
+        });
+    </script>
 @endsection

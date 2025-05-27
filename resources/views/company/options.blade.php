@@ -3,7 +3,7 @@
 <div class="container mx-auto py-10">
     <h1 class="text-2xl font-bold mb-6">Choose your company option</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Crear una empresa -->
         <div class="bg-white p-6 rounded-lg shadow">
             <h2 class="text-lg font-semibold mb-4">Create a Company</h2>
@@ -36,17 +36,6 @@
                 </div>
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
                     Join Company
-                </button>
-            </form>
-        </div>
-
-        <!-- No tener empresa -->
-        <div class="bg-white p-6 rounded-lg shadow">
-            <h2 class="text-lg font-semibold mb-4">No Company</h2>
-            <form action="{{ route('company.noCompany') }}" method="POST">
-                @csrf
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700">
-                    I don't want a company
                 </button>
             </form>
         </div>
