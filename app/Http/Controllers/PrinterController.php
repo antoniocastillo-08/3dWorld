@@ -102,8 +102,8 @@ class PrinterController extends Controller
         // Obtener la impresora específica
         $userPrinter = UserPrinter::with('printer')->findOrFail($id);
     
-        // Verificar si el usuario es el propietario o tiene el rol de administrador
-        if (auth()->id() !== $userPrinter->user_id && !auth()->user()->hasRole('admin')) {
+        // Verificar si la impresora pertenece a la misma workstation que el usuario o si el usuario es administrador
+        if ($userPrinter->workstation_id !== auth()->user()->workstation_id && !auth()->user()->hasRole('admin')) {
             abort(403, 'Unauthorized action.');
         }
     
@@ -124,26 +124,26 @@ class PrinterController extends Controller
     public function update(Request $request, $id)
     {
         $userPrinter = UserPrinter::findOrFail($id);
-
-        // Verifica si el usuario es el propietario o tiene el rol de administrador
-        if (auth()->id() !== $userPrinter->user_id && !auth()->user()->hasRole('admin')) {
+    
+        // Verificar si la impresora pertenece a la misma workstation que el usuario o si el usuario es administrador
+        if ($userPrinter->workstation_id !== auth()->user()->workstation_id && !auth()->user()->hasRole('admin')) {
             abort(403, 'Unauthorized action.');
         }
-
+    
         // Validar los datos recibidos
         $request->validate([
             'name' => 'required|string|max:255',
             'status' => 'required|in:Available,On Use,Not Available',
             'nozzle_size' => 'nullable|numeric|min:0.1',
         ]);
-
+    
         // Actualizar los datos en la tabla user_printers
         $userPrinter->update([
             'name' => $request->name,
             'status' => $request->status,
             'nozzle_size' => $request->nozzle_size,
         ]);
-
+    
         return redirect()->route('printers.index')->with('success', 'Impresora actualizada correctamente.');
     }
 
@@ -153,14 +153,14 @@ class PrinterController extends Controller
     public function destroy($id)
     {
         $userPrinter = UserPrinter::findOrFail($id);
-
-        // Verifica si el usuario es el propietario o tiene el rol de administrador
-        if (auth()->id() !== $userPrinter->user_id && !auth()->user()->hasRole('admin')) {
+    
+        // Verificar si la impresora pertenece a la misma workstation que el usuario o si el usuario es administrador
+        if ($userPrinter->workstation_id !== auth()->user()->workstation_id && !auth()->user()->hasRole('admin')) {
             abort(403, 'Unauthorized action.');
         }
-
+    
         $userPrinter->delete();
-
+    
         return redirect()->route('printers.index')->with('success', 'Printer deleted successfully.');
     }
 

@@ -22,6 +22,7 @@
                         {{ __('Company') }}
                     </x-nav-link>
                 </div>
+                
             </div>
 
             <!-- Settings Dropdown -->
@@ -93,6 +94,9 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('models3d.index')">
                     {{ __('Models') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('company.options')">
+                    {{ __('Company') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->

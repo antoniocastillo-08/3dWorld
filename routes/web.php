@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\CheckCompany;
 use App\Models\Printer;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Model3dController;
@@ -32,7 +33,7 @@ Route::middleware(['auth'])->group(function () {
 
 //Rutas para la gestión de Impresoras3d
 //--------------------------------------------------------------------------
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', CheckCompany::class])->group(function () {
     Route::get('/printers', [PrinterController::class, 'index'])->name('printers.index');
     Route::get('/printers/add', [PrinterController::class, 'add'])->name('printers.add');
     Route::get('/printers/customize/{printerId}', [PrinterController::class, 'customize'])->name('printers.customize');
@@ -50,7 +51,7 @@ Route::middleware(['auth'])->group(function () {
 
 //Rutas para la gestión de Filamentos
 //--------------------------------------------------------------------------
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', CheckCompany::class])->group(function () {
     Route::get('/filaments', [FilamentController::class, 'create'])->name('filaments.create');
     Route::post('/filaments/store', [FilamentController::class, 'store'])->name('filaments.store');
     
@@ -76,11 +77,14 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/company/options', [CompanyController::class, 'showOptions'])->name('company.options');
-    Route::post('/company/create', [CompanyController::class, 'createCompany'])->name('company.create');
     Route::post('/company/join', [CompanyController::class, 'joinCompany'])->name('company.join');
-    Route::post('/company/no-company', [CompanyController::class, 'noCompany'])->name('company.noCompany');
-});
 
+    Route::get('/company/create', [CompanyController::class, 'create'])->name('company.create');
+    Route::post('/company/store', [CompanyController::class, 'store'])->name('company.store');
+    Route::get('/company/{id}', [CompanyController::class, 'show'])->name('company.show');
+    Route::get('/company/{id}/edit', [CompanyController::class, 'edit'])->name('company.edit');
+    Route::put('/company/{id}', [CompanyController::class, 'update'])->name('company.update');
+});
 Route::get('/models3d/upload', function () {
     return view('models3d.upload');
 });

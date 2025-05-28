@@ -7,6 +7,23 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <!-- Mensaje de éxito -->
+            @if (session('success'))
+                <div id="error-message" class="w-auto bg-green-500 text-white p-4 rounded mb-4">
+                    {{ session('success') }}
+                </div>
+
+                <script>
+                    setTimeout(() => {
+                        const errorMessage = document.getElementById('error-message');
+                        if (errorMessage) {
+                            errorMessage.style.display = 'none';
+                        }
+                    }, 5000); // Ocultar después de 5 segundos
+                </script>
+            @endif
+    
+            
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     {{ __("Welcome to your personal space!") }}

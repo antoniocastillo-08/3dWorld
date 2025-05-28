@@ -117,9 +117,11 @@
             
         </div>
         <div class="ml-20 text-right">
-            <a href="{{ route('filaments.edit') }}" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-700">
-                Edit
-            </a>
+            @if ($filaments->isNotEmpty())
+                <a href="{{ route('filaments.edit') }}" class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-700">
+                    Edit
+                </a>
+            @endif
         </div>
     </div>
 
