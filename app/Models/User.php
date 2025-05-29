@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Model3d::class, 'like')->withTimestamps();
     }
 
+    public function joinRequests()
+    {
+        return $this->hasMany(JoinRequest::class);
+    }
+    
 
     protected static function booted()
     {

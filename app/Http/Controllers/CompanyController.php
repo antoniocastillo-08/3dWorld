@@ -5,23 +5,24 @@ use App\Models\Company;
 use App\Models\Workstation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\User;
+use App\Models\JoinRequest;
 class CompanyController extends Controller
 {
     public function showOptions()
     {
         $user = Auth::user();
-    
+
         // Si el usuario ya tiene una workstation, redirige a la empresa correspondiente
         if ($user->workstation && $user->workstation->company) {
             return redirect()->route('company.show', $user->workstation->company->id);
         }
-    
+
         // Mostrar la vista de opciones si no pertenece a una empresa
         $companies = Company::all();
         return view('company.options', compact('companies'));
     }
-    
+
 
     public function joinCompany(Request $request)
     {
@@ -106,5 +107,54 @@ class CompanyController extends Controller
         $company->update($validated);
 
         return redirect()->route('company.show', $company->id)->with('success', 'Company updated successfully.');
+    }
+    public function fire(User $user)
+    {
+        if (!Auth::user()->hasRole('boss')) {
+            abort(403);
+        }
+
+        // Eliminar la relación con la workstation
+        $user->workstation_id = null;
+        $user->save();
+
+        return back()->with('success', 'Empleado despedido correctamente.');
+    }
+
+    public function requestJoinCompany(Request $request)
+    {
+        $request->validate([
+            'company_id' => 'required|exists:companies,id',
+        ]);
+
+        JoinRequest::firstOrCreate([
+            'user_id' => Auth::id(),
+            'company_id' => $request->company_id,
+        ]);
+
+        return back()->with('success', 'Solicitud enviada al jefe de la empresa.');
+    }
+
+    public function respondToJoinRequest(Request $request, JoinRequest $joinRequest)
+    {
+        if (!Auth::user()->hasRole('boss')) {
+            abort(403);
+        }
+
+        if ($request->action === 'accept') {
+            $user = $joinRequest->user;
+            $workstation = Workstation::where('company_id', $joinRequest->company_id)->first();
+
+            $user->workstation_id = $workstation->id;
+            $user->save();
+
+            $joinRequest->status = 'accepted';
+        } else {
+            $joinRequest->status = 'rejected';
+        }
+
+        $joinRequest->save();
+
+        return back()->with('success', 'Respuesta enviada.');
     }
 }

@@ -18,6 +18,10 @@ class Company extends Model
     ];
 
     public function workstations(){
-        return $this->hasMany(related: Workstation::class);
+        return $this->hasMany(Workstation::class);
+    }
+    public function joinRequests()
+    {
+        return $this->hasMany(JoinRequest::class);
     }
 }

@@ -78,13 +78,17 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/company/options', [CompanyController::class, 'showOptions'])->name('company.options');
     Route::post('/company/join', [CompanyController::class, 'joinCompany'])->name('company.join');
-
     Route::get('/company/create', [CompanyController::class, 'create'])->name('company.create');
     Route::post('/company/store', [CompanyController::class, 'store'])->name('company.store');
     Route::get('/company/{id}', [CompanyController::class, 'show'])->name('company.show');
     Route::get('/company/{id}/edit', [CompanyController::class, 'edit'])->name('company.edit');
     Route::put('/company/{id}', [CompanyController::class, 'update'])->name('company.update');
+    Route::patch('/employees/{user}/fire', [CompanyController::class, 'fire'])->name('company.fire');
+    Route::post('/join-request', [CompanyController::class, 'requestJoinCompany'])->name('join.request');
+    Route::patch('/join-request/{joinRequest}/respond', [CompanyController::class, 'respondToJoinRequest'])->name('join.respond');
 });
+
+
 Route::get('/models3d/upload', function () {
     return view('models3d.upload');
 });

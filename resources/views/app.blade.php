@@ -42,6 +42,9 @@
                         <a href="/login" class="text-gray-700 hover:text-indigo-600 transition">Login</a>
                         <a href="/register" class="text-gray-700 hover:text-indigo-600 transition">Register</a>
                     @else
+
+                    <a href="/printers" class="block text-gray-700 hover:text-indigo-600">Printers</a>
+
                         <a href="/models3d/create" class="text-gray-700 hover:text-indigo-600 flex items-center space-x-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500" fill="currentColor"
                                 viewBox="0 0 16 16">
@@ -50,8 +53,7 @@
                             </svg>
                             <span>Create</span>
                         </a>
-                        <a href="/profile" class="text-gray-700 hover:text-indigo-600 transition">Profile</a>
-                        <a href="/printers" class="block text-gray-700 hover:text-indigo-600">Printers</a>
+                        <a href="/profile" class="text-gray-700 font-bold hover:text-indigo-600 transition">Profile</a>
                     @endguest
                 </div>
             </div>
