@@ -3,7 +3,7 @@ import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
     server: {
-        host: true, // Allow access from other devices on the network
+        host: true,
     },
     plugins: [
         laravel({
@@ -11,4 +11,5 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    base: process.env.APP_ENV === 'production' ? '/build/' : undefined,
 });
