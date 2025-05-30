@@ -11,5 +11,15 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    base: process.env.APP_ENV === 'production' ? '/build/' : undefined,
+    base: process.env.APP_ENV === 'production' ? '/build/' : '/', // base depende de tu deploy final
+    build: {
+        manifest: true,
+        outDir: 'public/build',
+        rollupOptions: {
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',
+            ],
+        },
+    },
 });
