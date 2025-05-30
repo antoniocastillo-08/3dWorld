@@ -1,25 +1,24 @@
-    import { defineConfig } from 'vite';
-    import laravel from 'laravel-vite-plugin';
+import { defineConfig } from 'vite';
+import laravel from 'laravel-vite-plugin';
 
-    export default defineConfig({
-        server: {
-            host: true,
+export default defineConfig({
+    server: {
+        host: true,
+    },
+    plugins: [
+        laravel({
+            input: ['resources/css/app.css', 'resources/js/app.js'],
+            refresh: true,
+        }),
+    ],
+    build: {
+        manifest: true,
+        outDir: 'public/build',
+        rollupOptions: {
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',
+            ],
         },
-        plugins: [
-            laravel({
-                input: ['resources/css/app.css', 'resources/js/app.js'],
-                refresh: true,
-            }),
-        ],
-        base: process.env.APP_ENV === 'production' ? '/build/' : '/', // base depende de tu deploy final
-        build: {
-            manifest: true,
-            outDir: 'public/build',
-            rollupOptions: {
-                input: [
-                    'resources/css/app.css',
-                    'resources/js/app.js',
-                ],
-            },
-        },
-    });
+    },
+});
