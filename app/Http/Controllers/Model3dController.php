@@ -34,7 +34,7 @@ class Model3dController extends Controller
             $query->orderBy('created_at', $request->date_order == 'newest' ? 'desc' : 'asc');
         }
 
-        $models = $query->get();
+        $models = $query->paginate(16)->appends($request->all());
        
         $printers = auth()->check()
             ? UserPrinter::where('workstation_id', auth()->user()->workstation_id)->with('printer')->get()

@@ -141,6 +141,8 @@
                     </form>
                 </a>
             @endforeach
+            {{ $models->links() }}
+
         </div>
     </div>
 
