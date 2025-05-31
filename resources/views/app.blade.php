@@ -25,19 +25,10 @@
                 <!-- Brand -->
                 <a href="/" class="text-xl font-semibold text-indigo-600">3dWorld</a>
 
-                <!-- Mobile menu button -->
-                <div class="lg:hidden">
-                    <button type="button"
-                        class="text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700"
-                        id="mobile-menu-toggle">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
+                
 
                 <!-- Desktop Menu -->
-                <div class="hidden lg:flex space-x-4 items-center">
+                <div class="flex space-x-4 items-center">
                     @guest
                         <a href="/login" class="text-gray-700 hover:text-indigo-600 transition">Login</a>
                         <a href="/register" class="text-gray-700 hover:text-indigo-600 transition">Register</a>
