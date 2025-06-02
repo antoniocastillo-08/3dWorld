@@ -13,6 +13,7 @@ class FilamentPrinter extends Model
         'filament_id',
     ];
 
+    // Relcion con Filament y UserPrinter
     public function filament()
     {
         return $this->belongsTo(Filament::class, 'filament_id');

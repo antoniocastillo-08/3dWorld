@@ -11,6 +11,7 @@ class Printer extends Model
     /** @use HasFactory<\Database\Factories\PrintersFactory> */
     use HasFactory;
 
+    // Relacion con UserPrinter
     public function userPrinters()
     {
         return $this->hasMany(UserPrinter::class);

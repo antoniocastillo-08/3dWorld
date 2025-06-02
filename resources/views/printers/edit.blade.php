@@ -125,42 +125,44 @@
 
     <div id="filamentsTable" class="hidden mt-8">
         <h2 class="text-xl font-bold mb-4">Available Filaments</h2>
-        <table class="table-auto border border-gray-300 w-full text-sm text-center">
-            <thead class="bg-gray-100">
-                <tr>
-                    <th class="border border-gray-300 px-4 py-2">Material</th>
-                    <th class="border border-gray-300 px-4 py-2">Color</th>
-                    <th class="border border-gray-300 px-4 py-2">Weight</th>
-                    <th class="border border-gray-300 px-4 py-2">Diameter</th>
-                    <th class="border border-gray-300 px-4 py-2">Brand</th>
-                    <th class="border border-gray-300 px-4 py-2">Available Amount</th> <!-- Nueva columna para la cantidad -->
-                    <th class="border border-gray-300 px-4 py-2">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($filaments as $filament)
+    
+        <div class="overflow-x-auto w-full">
+            <table class="min-w-[700px] border border-gray-300 w-full text-sm text-center">
+                <thead class="bg-gray-100">
                     <tr>
-                        <td>{{ $filament->material }}</td>
-                        <td>{{ $filament->color }}</td>
-                        <td>{{ $filament->weight }}</td>
-                        <td>{{ $filament->diameter }}</td>
-                        <td>{{ $filament->brand }}</td>
-                        <td>{{ $filament->amount }}</td> <!-- Mostrar la cantidad disponible -->
-                        <td>
-                            <form action="{{ route('printers.addFilament', [$userPrinter->id, $filament->id]) }}" method="POST">
-                                @csrf
-
-                                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                    Add
-                                </button>
-                            </form>
-                        </td>
+                        <th class="border border-gray-300 px-4 py-2">Material</th>
+                        <th class="border border-gray-300 px-4 py-2">Color</th>
+                        <th class="border border-gray-300 px-4 py-2">Weight</th>
+                        <th class="border border-gray-300 px-4 py-2">Diameter</th>
+                        <th class="border border-gray-300 px-4 py-2">Brand</th>
+                        <th class="border border-gray-300 px-4 py-2">Available Amount</th>
+                        <th class="border border-gray-300 px-4 py-2">Actions</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach ($filaments as $filament)
+                        <tr class="hover:bg-gray-50">
+                            <td class="border border-gray-300 px-4 py-2">{{ $filament->material }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ $filament->color }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ $filament->weight }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ $filament->diameter }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ $filament->brand }}</td>
+                            <td class="border border-gray-300 px-4 py-2">{{ $filament->amount }}</td>
+                            <td class="border border-gray-300 px-4 py-2">
+                                <form action="{{ route('printers.addFilament', [$userPrinter->id, $filament->id]) }}" method="POST">
+                                    @csrf
+                                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                        Add
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+    
 
     {{-- Script para mostrar/ocultar la tabla de filamentos --}}
 

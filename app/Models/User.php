@@ -49,15 +49,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Relacion con los puestos de trabajo
     public function workstation(){
         return $this->belongsTo(Workstation::class);
     }
 
+    // Relacion con los modelos 3D que se les dio me gusta
     public function likedModels()
     {
         return $this->belongsToMany(Model3d::class, 'like')->withTimestamps();
     }
 
+    // Relacion con JoinRequest
     public function joinRequests()
     {
         return $this->hasMany(JoinRequest::class);

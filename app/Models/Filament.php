@@ -20,10 +20,12 @@ class Filament extends Model
     ];
 
 
+    //Relación con Workstation
     public function workstation()
     {
         return $this->belongsTo(Workstation::class, 'workstation_id');
     }
+    // Relación con UserPrinter
     public function printers()
     {
         return $this->belongsToMany(UserPrinter::class, 'filaments_printers', 'filament_user_id', 'printer_user_id');

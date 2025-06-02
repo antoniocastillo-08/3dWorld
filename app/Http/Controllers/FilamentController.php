@@ -10,17 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class FilamentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Crear filamentos
     public function create()
     {
         $user = Auth::user();
@@ -34,9 +25,6 @@ class FilamentController extends Controller
         return view('filaments.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         // Validación de los datos recibidos
@@ -66,17 +54,8 @@ class FilamentController extends Controller
         // Redirige al listado de filamentos con un mensaje de éxito
         return redirect()->route('printers.index')->with('success', 'Filament added successfully.');
     }
-    /**
-     * Display the specified resource.
-     */
-    public function show(Filament $filament)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Editar filamentos  
     public function edit()
     {
         // Obtener los filamentos asociados a la estación de trabajo del usuario
@@ -86,9 +65,6 @@ class FilamentController extends Controller
         return view('filaments.edit', compact('filaments'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request)
     {
         $filaments = $request->input('filaments', []);
@@ -101,9 +77,7 @@ class FilamentController extends Controller
         return redirect()->route('printers.index')->with('success', 'Filaments updated successfully.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    // Eliminar filamentos
     public function destroy(Filament $filament)
     {
         // Verificar si el filamento pertenece al usuario actual

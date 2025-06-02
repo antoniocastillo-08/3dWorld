@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\JoinRequest;
 class CompanyController extends Controller
 {
+    //Funcion para mostrar las opciones de empresa
     public function showOptions()
     {
         $user = Auth::user();
@@ -23,7 +24,7 @@ class CompanyController extends Controller
         return view('company.options', compact('companies'));
     }
 
-
+    // Unirse a una empresa existente
     public function joinCompany(Request $request)
     {
         $request->validate([
@@ -39,7 +40,7 @@ class CompanyController extends Controller
         return redirect()->route('dashboard')->with('success', 'You have joined the company successfully.');
     }
 
-
+    // Crear una nueva empresa
     public function create()
     {
         // Mostrar la vista para crear una empresa
@@ -78,6 +79,7 @@ class CompanyController extends Controller
         return redirect()->route('company.show', $company->id);
     }
 
+    // Mostrar los detalles de la empresa
     public function show($id)
     {
         $company = Company::findOrFail($id);
@@ -86,6 +88,7 @@ class CompanyController extends Controller
         return view('company.show', compact('company', 'employees'));
     }
 
+    // Editar los detalles de la empresa (Solo para el jefe)
     public function edit($id)
     {
         $company = Company::findOrFail($id);
@@ -108,6 +111,8 @@ class CompanyController extends Controller
 
         return redirect()->route('company.show', $company->id)->with('success', 'Company updated successfully.');
     }
+
+    // Despedir a un empleado (Solo para el jefe)
     public function fire(User $user)
     {
         if (!Auth::user()->hasRole('boss')) {
@@ -121,6 +126,7 @@ class CompanyController extends Controller
         return back()->with('success', 'Empleado despedido correctamente.');
     }
 
+    // Solicitar unirse a una empresa
     public function requestJoinCompany(Request $request)
     {
         $request->validate([
@@ -135,6 +141,7 @@ class CompanyController extends Controller
         return back()->with('success', 'Solicitud enviada al jefe de la empresa.');
     }
 
+    // Mostrar las solicitudes de unión pendientes (Solo para el jefe)
     public function respondToJoinRequest(Request $request, JoinRequest $joinRequest)
     {
         if (!Auth::user()->hasRole('boss')) {

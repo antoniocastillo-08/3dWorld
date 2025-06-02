@@ -12,9 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\UserPrinter;
 class Model3dController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   
+    // Muestra el listado de modelos 3D
     public function index(Request $request)
     {
         $query = Model3D::query();
@@ -46,17 +45,13 @@ class Model3dController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Muestra el formulario para crear un nuevo modelo 3D
     public function create()
     {
         return view('models3d.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Crea un nuevo modelo 3D
     public function store(Request $request)
     {
         // Validación de los datos recibidos
@@ -107,18 +102,15 @@ class Model3dController extends Controller
 
         return redirect()->route('models3d.index')->with('success', 'Modelo 3D subido exitosamente.');
     }
-    /**
-     * Display the specified resource.
-     */
+    
+    // Muestra los detalles de un modelo 3D específico
     public function show(Model3d $model)
     {
         return view('models3d.show', ['model' => $model]);
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+    // Muestra el formulario para editar un modelo 3D
     public function edit($id)
     {
         $model = Model3d::findOrFail($id);
@@ -130,9 +122,8 @@ class Model3dController extends Controller
 
         return view('models3d.edit', compact('model'));
     }
-    /**
-     * Update the specified resource in storage.
-     */
+    
+
     public function update(Request $request, $id)
     {
         $model = Model3d::findOrFail($id);
@@ -191,9 +182,8 @@ class Model3dController extends Controller
 
         return redirect()->route('models3d.show', $model->id)->with('success', 'Modelo actualizado correctamente.');
     }
-    /**
-     * Remove the specified resource from storage.
-     */
+    
+    // Elimina un modelo 3D
     public function destroy($id)
     {
         $model = Model3d::findOrFail($id);
@@ -217,6 +207,7 @@ class Model3dController extends Controller
         return redirect()->route('models3d.index')->with('success', 'Modelo eliminado correctamente.');
     }
 
+    // Funciones para manejar "likes" en los modelos 3D
     public function like($id)
     {
         $model = Model3d::findOrFail($id);

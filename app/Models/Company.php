@@ -17,9 +17,11 @@ class Company extends Model
         'website',
     ];
 
+    // Relación con el modelo User
     public function workstations(){
         return $this->hasMany(Workstation::class);
     }
+    // Relación con el modelo JoinRequest
     public function joinRequests()
     {
         return $this->hasMany(JoinRequest::class);
