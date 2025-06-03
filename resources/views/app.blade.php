@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>@yield('title', config('app.name', '3dWorld'))</title>
+    <title>@yield('title', config('app.name', '3DWorld'))</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -23,9 +23,9 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 <!-- Brand -->
-                <a href="/" class="text-xl font-semibold text-indigo-600">3dWorld</a>
+                <a href="/" class="text-xl font-semibold text-indigo-600">3DWorld</a>
 
-                
+
 
                 <!-- Desktop Menu -->
                 <div class="flex space-x-4 items-center">
@@ -34,7 +34,7 @@
                         <a href="/register" class="text-gray-700 hover:text-indigo-600 transition">Register</a>
                     @else
 
-                    <a href="/printers" class="block text-gray-700 hover:text-indigo-600">Printers</a>
+                        <a href="/printers" class="block text-gray-700 hover:text-indigo-600">Printers</a>
 
                         <a href="/models3d/create" class="text-gray-700 hover:text-indigo-600 flex items-center space-x-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-500" fill="currentColor"
@@ -44,8 +44,9 @@
                             </svg>
                             <span>Create</span>
                         </a>
-                        <a href="/profile" class="text-gray-700 font-bold hover:text-indigo-600 transition">Profile</a>
-                    @endguest
+                        <a href="/profile" class="hover:opacity-80 transition">
+                            <x-application-logo class="w-10 h-10 text-indigo-600" />
+                    </a>  @endguest
                 </div>
             </div>
         </div>

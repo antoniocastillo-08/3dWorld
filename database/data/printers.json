@@ -42,14 +42,6 @@
         "image":"printers/k1c.jpg"
     },
     {
-        "name": "HALOT R6",
-        "model": "Halot",
-        "type": "SLA",
-        "brand": "Creality",
-        "print_volume": "355 x 355 x 482 mm",
-        "image":"printers/halot_r6.jpg"
-    },
-    {
         "name": "Bambu Lab H2D",
         "model": "H2D",
         "type": "FDM",
@@ -73,12 +65,20 @@
         "print_volume": "180 x 180 x 180 mm",
         "image":"printers/bambu_lab_a1_mini.png"
     },
-    {
-        "name": "Elegoo Mars 3",
-        "model": "Mars",
-        "type": "SLA",
-        "brand": "Elegoo",
-        "print_volume": "143x89x175 mm",
-        "image": "printers/elegoo_mars_3.jpg"
+       {
+        "name": "K1 SE",
+        "model": "K1",
+        "type": "FDM",
+        "brand": "Creality",
+        "print_volume": "220 x 220 x 250 mm",
+        "image":"printers/k1_se.jpg"
+    },
+       {
+        "name": "Prusa Pro HT90",
+        "model": "HT90",
+        "type": "FDM",
+        "brand": "Prusa",
+        "print_volume": "Ø300 x 400 mm",
+        "image":"printers/prusa_ht90.jpg"
     }
 ]

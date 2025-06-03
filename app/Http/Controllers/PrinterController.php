@@ -97,6 +97,25 @@ class PrinterController extends Controller
         return view('printers.edit', compact('userPrinter', 'filaments', 'filamentsPrinters'));
     }
 
+    // Actualiza las notas de una impresora específica
+    public function updateNotes(Request $request, $id)
+    {
+        $request->validate([
+            'notes' => 'nullable|string|max:5000',
+        ]);
+
+        $userPrinter = UserPrinter::findOrFail($id);
+
+        // Verificar que el usuario tenga permiso para editar esta impresora
+        if ($userPrinter->workstation_id !== auth()->user()->workstation_id && !auth()->user()->hasRole('admin')) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $userPrinter->notes = $request->notes;
+        $userPrinter->save();
+
+        return redirect()->back()->with('success', 'Notes updated successfully.');
+    }
 
     public function update(Request $request, $id)
     {

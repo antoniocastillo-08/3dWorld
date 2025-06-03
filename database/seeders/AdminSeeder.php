@@ -36,7 +36,7 @@ class AdminSeeder extends Seeder
         $adminRole->syncPermissions($permissions);
 
         // Crear la compañía "Admin"
-        $adminCompany = Company::firstOrCreate(['name' => 'Admin']);
+        $adminCompany = Company::firstOrCreate(['name' => 'Admin', 'phone' => '1234567890', 'email' => 'example@3dworld.com', 'address'=> '123 Admin']);
 
         // Crear una estación de trabajo para la compañía "Admin"
         $adminWorkstation = Workstation::firstOrCreate([

@@ -15,8 +15,10 @@ class CreatePrintUserTable extends Migration
         
             $table->string('name'); // nombre personalizado que el usuario da a esta impresora
             $table->enum('status', ['Available', 'On Use', 'Not Available'])->default('Available');
-            $table->string('nozzle_size')->nullable(); // puede ser texto o float, según tu necesidad
-        
+            $table->float('nozzle_size')->nullable();
+            
+            $table->text('notes')->nullable();
+
             $table->timestamps();
         });
     }

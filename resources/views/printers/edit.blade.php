@@ -5,18 +5,20 @@
         class="container bg-gradient-to-b from-white to-gray-200 py-20 mx-auto my-8 px-4 text-xl border border-gray-400 rounded-lg shadow-lg">
         <div class="flex justify-end items-center mb-8">
             <h1 class=" text-3xl font-bold
-                            @if ($userPrinter->status === 'Available') text-green-600 
-                            @elseif ($userPrinter->status === 'On Use') text-yellow-600 
-                            @elseif ($userPrinter->status === 'Not Available') text-red-600 
-                            @endif">
+                                    @if ($userPrinter->status === 'Available') text-green-600 
+                                    @elseif ($userPrinter->status === 'On Use') text-yellow-600 
+                                    @elseif ($userPrinter->status === 'Not Available') text-red-600 
+                                    @endif">
                 {{ $userPrinter->status }}
             </h1>
         </div>
         <div class="flex flex-col md:flex-row items-center md:justify-around mx-4 md:mx-20">
             <h1 class="text-2xl md:text-5xl font-bold mb-4 md:mb-0 text-center md:text-left">{{ $userPrinter->name }}</h1>
-
             <img src="{{ asset('storage/' . $userPrinter->printer->image) }}" alt="{{ $userPrinter->printer->name }}"
                 class="w-64 h-64 md:w-80 md:h-80 rounded-lg border border-black">
+        </div>
+        <div class="flex flex-col md:flex-row  md:justify-around mx-4 md:mx-20 mt-8">
+            <p class="text-lg font-semibold">Print Volume: {{ $userPrinter->printer->print_volume }}</p>
         </div>
 
         <form class="mx-40" action="{{ route('printers.update', $userPrinter->id) }}" method="POST">
@@ -36,17 +38,17 @@
 
                 <div class="flex flex-wrap justify-center gap-4">
                     <button type="button" class="status-btn px-4 py-2 rounded font-semibold 
-                    {{ $userPrinter->status === 'Available' ? 'bg-green-600 text-white' : 'bg-gray-200' }}"
+                            {{ $userPrinter->status === 'Available' ? 'bg-green-600 text-white' : 'bg-gray-200' }}"
                         data-status="Available">
                         Available
                     </button>
                     <button type="button" class="status-btn px-4 py-2 rounded font-semibold 
-                    {{ $userPrinter->status === 'On Use' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}"
+                            {{ $userPrinter->status === 'On Use' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}"
                         data-status="On Use">
                         On Use
                     </button>
                     <button type="button" class="status-btn px-4 py-2 rounded font-semibold 
-                    {{ $userPrinter->status === 'Not Available' ? 'bg-red-600 text-white' : 'bg-gray-200' }}"
+                            {{ $userPrinter->status === 'Not Available' ? 'bg-red-600 text-white' : 'bg-gray-200' }}"
                         data-status="Not Available">
                         Not Available
                     </button>
@@ -54,14 +56,12 @@
             </div>
 
 
-            @if ($userPrinter->printer->type !== 'SLA')
-                <div class="mb-4">
-                    <label for="nozzle_size" class="block text-sm font-medium text-gray-700">Nozzle Size (mm)</label>
-                    <input type="number" name="nozzle_size" id="nozzle_size" value="{{ $userPrinter->nozzle_size }}" step="0.1"
-                        min="0.1"
-                        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                </div>
-            @endif
+            <div class="mb-4">
+                <label for="nozzle_size" class="block text-sm font-medium text-gray-700">Nozzle Size (mm)</label>
+                <input type="number" name="nozzle_size" id="nozzle_size" value="{{ $userPrinter->nozzle_size }}" step="0.1"
+                    min="0.1"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+            </div>
 
 
             <!-- Botón de enviar -->
@@ -88,6 +88,7 @@
                     Delete
                 </button>
             </form>
+
 
         </div>
 
@@ -134,12 +135,28 @@
                 @endforelse
             </tbody>
         </table>
+
+        <div class="mt-12">
+            <h2 class="text-2xl font-bold mb-4">📝 Printer Notes</h2>
+
+            <form action="{{ route('printers.updateNotes', $userPrinter->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+
+                <textarea name="notes" rows="8"
+                    class="w-full border border-gray-300 rounded-md shadow-sm p-4 focus:ring-indigo-500 focus:border-indigo-500 text-base"
+                    placeholder="Add info like recommended filament type, ideal temperatures, speed, maintenance notes...">{{ old('notes', $userPrinter->notes) }}</textarea>
+
+                <div class="flex justify-end mt-4">
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+                        Save Notes
+                    </button>
+                </div>
+            </form>
+        </div>
+
     </div>
 
-
-    <div class="mt-8">
-
-    </div>
 
     <div id="filamentsTable" class="hidden mt-8">
         <h2 class="text-xl font-bold mb-4">Available Filaments</h2>

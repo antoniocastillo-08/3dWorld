@@ -40,6 +40,8 @@ Route::middleware(['auth', CheckCompany::class])->group(function () {
     Route::post('/printers/attach', [PrinterController::class, 'attach'])->name('printers.attach');
 
     Route::get('/printers/{printerId}/edit', action: [PrinterController::class, 'edit'])->name('printers.edit');
+    Route::put('/printers/{printer}/notes', [PrinterController::class, 'updateNotes'])->name('printers.updateNotes');
+
     Route::put('/printers/{printerId}', [PrinterController::class, 'update'])->name('printers.update');
     
     
