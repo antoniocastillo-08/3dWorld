@@ -20,7 +20,7 @@
                     </x-nav-link>
                     <x-nav-link :href="route('company.options')">
                         {{ __('Company') }}
-                    </x-nav-link>
+                    </x-nav-link> 
                 </div>
                 
             </div>

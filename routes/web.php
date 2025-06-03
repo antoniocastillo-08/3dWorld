@@ -63,6 +63,7 @@ Route::middleware(['auth', CheckCompany::class])->group(function () {
 
 
 
+
 // Rutas para la autenticación
 //|--------------------------------------------------------------------------
 Route::get('/dashboard', [DashboardController::class, 'index'])

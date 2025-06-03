@@ -114,7 +114,7 @@
             </table>
         </div>
 
-        <div class="w-full max-w-screen-lg mt-4 text-right px-2">
+        <div class="w-full max-w-screen-lg my-5 text-right px-2">
             @if ($filaments->isNotEmpty())
                 <a href="{{ route('filaments.edit') }}"
                    class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-700 text-sm">

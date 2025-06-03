@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->bigInteger('phone')->nullable();
-            $table->string('email')->unique()->nullable();
+            $table->bigInteger('phone')->unique();
+            $table->string('email')->unique();
             $table->string('address')->nullable();
             $table->string('website')->nullable();
             $table->timestamps();
