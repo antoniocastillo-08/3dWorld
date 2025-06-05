@@ -3,12 +3,28 @@
 @section('content')
     <div
         class="container bg-gradient-to-b from-white to-gray-200 py-20 mx-auto my-8 px-4 text-xl border border-gray-400 rounded-lg shadow-lg">
-        <div class="flex justify-end items-center mb-8">
+        <div class="flex justify-around items-center mb-8">
+            @if (session('error'))
+                <div id="error-message" class="bg-red-100 text-red-800 px-4 py-2 rounded mb-4">
+                    {{ session('error') }}
+                </div>
+            @endif
+            @if (session('success'))
+                <div id="success-message" class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
+            @if (session('info'))
+                <div id="info-message" class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded mb-4">
+                    {{ session('info') }}
+                </div>
+            @endif
+
             <h1 class=" text-3xl font-bold
-                                    @if ($userPrinter->status === 'Available') text-green-600 
-                                    @elseif ($userPrinter->status === 'On Use') text-yellow-600 
-                                    @elseif ($userPrinter->status === 'Not Available') text-red-600 
-                                    @endif">
+                                        @if ($userPrinter->status === 'Available') text-green-600 
+                                        @elseif ($userPrinter->status === 'On Use') text-yellow-600 
+                                        @elseif ($userPrinter->status === 'Not Available') text-red-600 
+                                        @endif">
                 {{ $userPrinter->status }}
             </h1>
         </div>
@@ -38,17 +54,17 @@
 
                 <div class="flex flex-wrap justify-center gap-4">
                     <button type="button" class="status-btn px-4 py-2 rounded font-semibold 
-                            {{ $userPrinter->status === 'Available' ? 'bg-green-600 text-white' : 'bg-gray-200' }}"
+                                {{ $userPrinter->status === 'Available' ? 'bg-green-600 text-white' : 'bg-gray-200' }}"
                         data-status="Available">
                         Available
                     </button>
                     <button type="button" class="status-btn px-4 py-2 rounded font-semibold 
-                            {{ $userPrinter->status === 'On Use' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}"
+                                {{ $userPrinter->status === 'On Use' ? 'bg-yellow-500 text-white' : 'bg-gray-200' }}"
                         data-status="On Use">
                         On Use
                     </button>
                     <button type="button" class="status-btn px-4 py-2 rounded font-semibold 
-                            {{ $userPrinter->status === 'Not Available' ? 'bg-red-600 text-white' : 'bg-gray-200' }}"
+                                {{ $userPrinter->status === 'Not Available' ? 'bg-red-600 text-white' : 'bg-gray-200' }}"
                         data-status="Not Available">
                         Not Available
                     </button>
@@ -73,24 +89,7 @@
             </div>
 
         </form>
-        <div class="flex justify-between my-8">
-            <button type="button" onclick="toggleFilaments()"
-                class="bg-green-500 text-white px-10 py-6 rounded-xl hover:bg-green-700">
-                Filaments
-            </button>
 
-            <form action="{{ route('printers.destroy', $userPrinter->id) }}" method="POST"
-                onsubmit="return confirm('Are you sure you want to delete this printer?');">
-                @csrf
-                @method('DELETE')
-
-                <button type="submit" class="bg-red-500 text-white px-6 py-4 rounded-xl hover:bg-red-700">
-                    Delete
-                </button>
-            </form>
-
-
-        </div>
 
         <h2 class="text-xl font-bold mb-4">Loaded Filaments</h2>
         <table class="table-auto border border-gray-300 w-full text-sm text-center">
@@ -144,7 +143,7 @@
                 @method('PUT')
 
                 <textarea name="notes" rows="8"
-                    class="w-full border border-gray-300 rounded-md shadow-sm p-4 focus:ring-indigo-500 focus:border-indigo-500 text-base"
+                    class="w-full border font-thin border-gray-300 rounded-md shadow-sm p-4 focus:ring-indigo-500 focus:border-indigo-500 text-base"
                     placeholder="Add info like recommended filament type, ideal temperatures, speed, maintenance notes...">{{ old('notes', $userPrinter->notes) }}</textarea>
 
                 <div class="flex justify-end mt-4">
@@ -153,83 +152,103 @@
                     </button>
                 </div>
             </form>
+
+            <div class="flex justify-between my-8">
+                <button type="button" onclick="toggleFilaments()"
+                    class="bg-green-500 text-white px-10 py-7 rounded-xl hover:bg-green-700">
+                    Filaments
+                </button>
+
+                <form action="{{ route('printers.destroy', $userPrinter->id) }}" method="POST"
+                    onsubmit="return confirm('Are you sure you want to delete this printer?');">
+                    @csrf
+                    @method('DELETE')
+
+                    <button type="submit" class="bg-red-500 text-white px-6 py-7 rounded-xl hover:bg-red-700">
+                        Delete Printer?
+                    </button>
+                </form>
+
+
+            </div>
+
+
         </div>
 
-    </div>
 
+        <div id="filamentsTable" class="hidden mt-8">
+            <h2 class="text-xl font-bold mb-4">Available Filaments</h2>
 
-    <div id="filamentsTable" class="hidden mt-8">
-        <h2 class="text-xl font-bold mb-4">Available Filaments</h2>
-
-        <div class="overflow-x-auto w-full">
-            <table class="min-w-[700px] border border-gray-300 w-full text-sm text-center">
-                <thead class="bg-gray-100">
-                    <tr>
-                        <th class="border border-gray-300 px-4 py-2">Material</th>
-                        <th class="border border-gray-300 px-4 py-2">Color</th>
-                        <th class="border border-gray-300 px-4 py-2">Weight</th>
-                        <th class="border border-gray-300 px-4 py-2">Diameter</th>
-                        <th class="border border-gray-300 px-4 py-2">Brand</th>
-                        <th class="border border-gray-300 px-4 py-2">Available Amount</th>
-                        <th class="border border-gray-300 px-4 py-2">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($filaments as $filament)
-                        <tr class="hover:bg-gray-50">
-                            <td class="border border-gray-300 px-4 py-2">{{ $filament->material }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $filament->color }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $filament->weight }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $filament->diameter }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $filament->brand }}</td>
-                            <td class="border border-gray-300 px-4 py-2">{{ $filament->amount }}</td>
-                            <td class="border border-gray-300 px-4 py-2">
-                                <form action="{{ route('printers.addFilament', [$userPrinter->id, $filament->id]) }}"
-                                    method="POST">
-                                    @csrf
-                                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
-                                        Add
-                                    </button>
-                                </form>
-                            </td>
+            <div class="overflow-x-auto w-full">
+                <table class="min-w-[700px] border border-gray-300 w-full text-sm text-center">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="border border-gray-300 px-4 py-2">Material</th>
+                            <th class="border border-gray-300 px-4 py-2">Color</th>
+                            <th class="border border-gray-300 px-4 py-2">Weight</th>
+                            <th class="border border-gray-300 px-4 py-2">Diameter</th>
+                            <th class="border border-gray-300 px-4 py-2">Brand</th>
+                            <th class="border border-gray-300 px-4 py-2">Available Amount</th>
+                            <th class="border border-gray-300 px-4 py-2">Actions</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach ($filaments as $filament)
+                            <tr class="hover:bg-gray-50">
+                                <td class="border border-gray-300 px-4 py-2">{{ $filament->material }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ $filament->color }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ $filament->weight }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ $filament->diameter }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ $filament->brand }}</td>
+                                <td class="border border-gray-300 px-4 py-2">{{ $filament->amount }}</td>
+                                <td class="border border-gray-300 px-4 py-2">
+                                    <form action="{{ route('printers.addFilament', [$userPrinter->id, $filament->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        <button type="submit"
+                                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                            Add
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
 
 
-    {{-- Script para mostrar/ocultar la tabla de filamentos --}}
+        {{-- Script para mostrar/ocultar la tabla de filamentos --}}
 
-    <script>
-        function toggleFilaments() {
-            const table = document.getElementById('filamentsTable');
-            table.classList.toggle('hidden');
-        }
+        <script>
+            function toggleFilaments() {
+                const table = document.getElementById('filamentsTable');
+                table.classList.toggle('hidden');
+            }
 
-        document.querySelectorAll('.status-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Cambiar el valor del input oculto
-                document.getElementById('status').value = btn.dataset.status;
+            document.querySelectorAll('.status-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Cambiar el valor del input oculto
+                    document.getElementById('status').value = btn.dataset.status;
 
-                // Quitar estilos activos de todos
-                document.querySelectorAll('.status-btn').forEach(b => {
-                    b.classList.remove('bg-green-600', 'bg-yellow-500', 'bg-red-600', 'text-white');
-                    b.classList.add('bg-gray-200');
+                    // Quitar estilos activos de todos
+                    document.querySelectorAll('.status-btn').forEach(b => {
+                        b.classList.remove('bg-green-600', 'bg-yellow-500', 'bg-red-600', 'text-white');
+                        b.classList.add('bg-gray-200');
+                    });
+
+                    // Activar el botón seleccionado
+                    btn.classList.remove('bg-gray-200');
+                    if (btn.dataset.status === 'Available') {
+                        btn.classList.add('bg-green-600', 'text-white');
+                    } else if (btn.dataset.status === 'On Use') {
+                        btn.classList.add('bg-yellow-500', 'text-white');
+                    } else if (btn.dataset.status === 'Not Available') {
+                        btn.classList.add('bg-red-600', 'text-white');
+                    }
                 });
-
-                // Activar el botón seleccionado
-                btn.classList.remove('bg-gray-200');
-                if (btn.dataset.status === 'Available') {
-                    btn.classList.add('bg-green-600', 'text-white');
-                } else if (btn.dataset.status === 'On Use') {
-                    btn.classList.add('bg-yellow-500', 'text-white');
-                } else if (btn.dataset.status === 'Not Available') {
-                    btn.classList.add('bg-red-600', 'text-white');
-                }
             });
-        });
 
-    </script>
+        </script>
 @endsection

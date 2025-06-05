@@ -140,7 +140,7 @@ class PrinterController extends Controller
             'nozzle_size' => $request->nozzle_size,
         ]);
 
-        return redirect()->route('printers.index')->with('success', 'Impresora actualizada correctamente.');
+        return redirect()->route('printers.index')->with('success', 'Printer updated correctly.');
     }
 
     // Elimina una impresora específica
@@ -185,7 +185,7 @@ class PrinterController extends Controller
             'filament_id' => $filamentId,
         ]);
 
-        // Reducir el amount del filamento
+        // Recorrectamenteducir el amount del filamento
         $filament->decrement('amount');
 
         return redirect()->back()->with('success', 'Filament added to the printer successfully.');

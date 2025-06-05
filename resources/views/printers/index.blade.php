@@ -8,9 +8,24 @@
         <a href="/printers/add" class="bg-indigo-600 text-white px-6 py-3 rounded hover:bg-indigo-700 text-sm">
             Add print
         </a>
+
+        @if (session('success'))
+            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)" x-show="show" x-transition
+                class="fixed top-6 right-6 bg-green-100 text-green-800 px-6 py-4 rounded-lg shadow-md z-50">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)" x-show="show" x-transition
+                class="fixed top-6 right-6 bg-red-100 text-red-800 px-6 py-4 rounded-lg shadow-md z-50">
+                {{ session('error') }}
+            </div>
+        @endif
+
     </div>
 
-    <div class="container bg-gradient-to-b from-white to-gray-200 py-16 md:py-36 px-4 mx-auto my-8 border border-gray-400 rounded-lg shadow-lg">
+    <div
+        class="container bg-gradient-to-b from-white to-gray-200 py-16 md:py-36 px-4 mx-auto my-8 border border-gray-400 rounded-lg shadow-lg">
         @if ($printers->isEmpty())
             <div class="flex flex-col items-center bg-gray-300 border border-dashed border-gray-800 py-9 rounded-lg shadow-lg">
                 <p class="text-center text-gray-600 mb-4">You don't have printers added</p>
@@ -27,10 +42,10 @@
                         <p class="text-sm text-gray-900">Nick: {{ $userPrinter->name }}</p>
                         <h3 class="text-lg font-semibold text-gray-500">{{ $userPrinter->printer->name }}</h3>
                         <p class="text-sm font-semibold
-                            @if ($userPrinter->status === 'Available') text-green-600
-                            @elseif ($userPrinter->status === 'On Use') text-yellow-600
-                            @elseif ($userPrinter->status === 'Not Available') text-red-600
-                            @endif">
+                                        @if ($userPrinter->status === 'Available') text-green-600
+                                        @elseif ($userPrinter->status === 'On Use') text-yellow-600
+                                        @elseif ($userPrinter->status === 'Not Available') text-red-600
+                                        @endif">
                             Status: {{ $userPrinter->status }}
                         </p>
                     </a>
@@ -59,38 +74,32 @@
                             <td class="border px-4 py-2 text-gray-600">
                                 <span class="view-mode">{{ $filament->material }}</span>
                                 <input type="text" name="filaments[{{ $filament->id }}][material]"
-                                    value="{{ $filament->material }}"
-                                    class="edit-mode border rounded px-2 py-1 w-full hidden">
+                                    value="{{ $filament->material }}" class="edit-mode border rounded px-2 py-1 w-full hidden">
                             </td>
                             <td class="border px-4 py-2 text-gray-600">
                                 <span class="view-mode">{{ $filament->color }}</span>
-                                <input type="text" name="filaments[{{ $filament->id }}][color]"
-                                    value="{{ $filament->color }}"
+                                <input type="text" name="filaments[{{ $filament->id }}][color]" value="{{ $filament->color }}"
                                     class="edit-mode border rounded px-2 py-1 w-full hidden">
                             </td>
                             <td class="border px-4 py-2 text-gray-600">
                                 <span class="view-mode">{{ $filament->weight }}</span>
                                 <input type="number" name="filaments[{{ $filament->id }}][weight]"
-                                    value="{{ $filament->weight }}"
-                                    class="edit-mode border rounded px-2 py-1 w-full hidden">
+                                    value="{{ $filament->weight }}" class="edit-mode border rounded px-2 py-1 w-full hidden">
                             </td>
                             <td class="border px-4 py-2 text-gray-600">
                                 <span class="view-mode">{{ $filament->diameter }}</span>
                                 <input type="number" step="0.01" name="filaments[{{ $filament->id }}][diameter]"
-                                    value="{{ $filament->diameter }}"
-                                    class="edit-mode border rounded px-2 py-1 w-full hidden">
+                                    value="{{ $filament->diameter }}" class="edit-mode border rounded px-2 py-1 w-full hidden">
                             </td>
                             <td class="border px-4 py-2 text-gray-600">
                                 <span class="view-mode">{{ $filament->brand }}</span>
-                                <input type="text" name="filaments[{{ $filament->id }}][brand]"
-                                    value="{{ $filament->brand }}"
+                                <input type="text" name="filaments[{{ $filament->id }}][brand]" value="{{ $filament->brand }}"
                                     class="edit-mode border rounded px-2 py-1 w-full hidden">
                             </td>
                             <td class="border px-4 py-2 text-gray-600">
                                 <span class="view-mode">{{ $filament->amount }}</span>
                                 <input type="number" name="filaments[{{ $filament->id }}][amount]"
-                                    value="{{ $filament->amount }}"
-                                    class="edit-mode border rounded px-2 py-1 w-full hidden">
+                                    value="{{ $filament->amount }}" class="edit-mode border rounded px-2 py-1 w-full hidden">
                             </td>
                             <td class="border px-4 py-2">
                                 <form method="POST" action="{{ route('filaments.destroy', $filament->id) }}"
@@ -117,7 +126,7 @@
         <div class="w-full max-w-screen-lg my-5 text-right px-2">
             @if ($filaments->isNotEmpty())
                 <a href="{{ route('filaments.edit') }}"
-                   class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-700 text-sm">
+                    class="bg-blue-500 text-white px-6 py-3 rounded hover:bg-blue-700 text-sm">
                     Edit
                 </a>
             @endif

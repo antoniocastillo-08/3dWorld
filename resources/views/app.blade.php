@@ -34,6 +34,8 @@
                         <a href="/register" class="text-gray-700 hover:text-indigo-600 transition">Register</a>
                     @else
 
+                        <a href="/company/options" class="text-gray-700 hover:text-indigo-600 transition">Company</a>
+
                         <a href="/printers" class="block text-gray-700 hover:text-indigo-600">Printers</a>
 
                         <a href="/models3d/create" class="text-gray-700 hover:text-indigo-600 flex items-center space-x-1">
@@ -46,7 +48,7 @@
                         </a>
                         <a href="/profile" class="hover:opacity-80 transition">
                             <x-application-logo class="w-10 h-10 text-indigo-600" />
-                    </a>  @endguest
+                    </a> @endguest
                 </div>
             </div>
         </div>

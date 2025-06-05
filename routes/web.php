@@ -43,8 +43,8 @@ Route::middleware(['auth', CheckCompany::class])->group(function () {
     Route::put('/printers/{printer}/notes', [PrinterController::class, 'updateNotes'])->name('printers.updateNotes');
 
     Route::put('/printers/{printerId}', [PrinterController::class, 'update'])->name('printers.update');
-    
-    
+
+
     Route::post('/printers/{printer}/filaments/{filament}/add', [PrinterController::class, 'addFilament'])->name('printers.addFilament');
     Route::delete('/printers/{printer}/filaments/{filament}/remove', [PrinterController::class, 'removeFilament'])->name('printers.removeFilament');
 
@@ -56,10 +56,10 @@ Route::middleware(['auth', CheckCompany::class])->group(function () {
 Route::middleware(['auth', CheckCompany::class])->group(function () {
     Route::get('/filaments', [FilamentController::class, 'create'])->name('filaments.create');
     Route::post('/filaments/store', [FilamentController::class, 'store'])->name('filaments.store');
-    
+
     Route::get('/filaments/edit', [FilamentController::class, 'edit'])->name('filaments.edit');
     Route::put('/filaments/update', [FilamentController::class, 'update'])->name('filaments.update');
-    
+
     Route::delete('/filaments/{filament}', [FilamentController::class, 'destroy'])->name('filaments.destroy');
 });
 
@@ -89,6 +89,8 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/employees/{user}/fire', [CompanyController::class, 'fire'])->name('company.fire');
     Route::post('/join-request', [CompanyController::class, 'requestJoinCompany'])->name('join.request');
     Route::patch('/join-request/{joinRequest}/respond', [CompanyController::class, 'respondToJoinRequest'])->name('join.respond');
+    Route::delete('/company/{id}', [CompanyController::class, 'destroy'])->name('company.destroy');
+
 });
 
 

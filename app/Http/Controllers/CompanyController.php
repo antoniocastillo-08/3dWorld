@@ -123,23 +123,30 @@ class CompanyController extends Controller
         $user->workstation_id = null;
         $user->save();
 
-        return back()->with('success', 'Empleado despedido correctamente.');
+        return back()->with('success', 'Employee fired successfully.');
     }
 
     // Solicitar unirse a una empresa
     public function requestJoinCompany(Request $request)
     {
         $request->validate([
-            'company_id' => 'required|exists:companies,id',
+            'company_name' => 'required|string|exists:companies,name',
         ]);
+
+        $company = Company::where('name', $request->company_name)->first();
+
+        if (!$company) {
+            return back()->withErrors(['company_name' => 'Company not found.']);
+        }
 
         JoinRequest::firstOrCreate([
             'user_id' => Auth::id(),
-            'company_id' => $request->company_id,
+            'company_id' => $company->id,
         ]);
 
-        return back()->with('success', 'Solicitud enviada al jefe de la empresa.');
+        return back()->with('success', 'Request sended to boss.');
     }
+
 
     // Mostrar las solicitudes de unión pendientes (Solo para el jefe)
     public function respondToJoinRequest(Request $request, JoinRequest $joinRequest)
@@ -162,6 +169,31 @@ class CompanyController extends Controller
 
         $joinRequest->save();
 
-        return back()->with('success', 'Respuesta enviada.');
+        return back()->with('success', 'Sent');
     }
+    // Eliminar una empresa (Solo para el jefe)
+    public function destroy($id)
+    {
+        $company = Company::findOrFail($id);
+
+        // Solo el jefe puede eliminar la empresa
+        if (!Auth::user()->hasRole('boss')) {
+            abort(403);
+        }
+
+        // Elimina todos los usuarios relacionados (opcional: podrías querer solo desvincularlos)
+        foreach ($company->workstations as $workstation) {
+            foreach ($workstation->users as $user) {
+                $user->workstation_id = null;
+                $user->removeRole('boss'); // Quitar rol si es necesario
+                $user->save();
+            }
+            $workstation->delete(); // eliminar estaciones de trabajo
+        }
+
+        $company->delete(); // eliminar empresa
+
+        return redirect()->route('dashboard')->with('success', 'Company deleted successfully.');
+    }
+
 }
