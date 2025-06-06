@@ -1,12 +1,17 @@
 <x-app-layout>
+
+    <!-- Vista individual de una empresa -->
     <div class="container mx-auto px-4 py-10">
         <div class="mb-8">
+            <!-- Mostrar mensaje de éxito si existe -->
             @if (session('success'))
                 <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)" x-show="show" x-transition
                     class="fixed top-6 right-6 bg-green-100 text-green-800 px-6 py-4 rounded-lg shadow-md z-50">
                     {{ session('success') }}
                 </div>
             @endif
+
+            <!-- Detalles de la empresa -->
             <h1 class="text-3xl md:text-5xl font-bold mb-4">{{ $company->name }}</h1>
             <p class="text-sm md:text-base"><strong>Phone:</strong> {{ $company->phone }}</p>
             <p class="text-sm md:text-base"><strong>Email:</strong> {{ $company->email }}</p>
@@ -19,6 +24,7 @@
             </p>
         </div>
 
+        <!--Botón para editar la empresa si el usuario es el boss-->
         @if (Auth::user()->hasRole('boss'))
             <a href="{{ route('company.edit', $company->id) }}"
                 class="inline-block bg-blue-500 text-white px-4 py-2 mt-4 rounded hover:bg-blue-700">
@@ -26,6 +32,7 @@
             </a>
         @endif
 
+        <!-- Mostrar integrantes de la empresa -->
         <div class="mt-10">
             <h2 class="text-xl font-semibold mb-4">Employees</h2>
 
@@ -55,6 +62,7 @@
                                     <td class="py-2 px-4">{{ $user->email }}</td>
                                     <td class="py-2 px-4">{{ $workstation->name }}</td>
 
+                                    <!-- Accion de despedir solo visible para el boss -->
                                     @if (Auth::user()->hasRole('boss') && Auth::id() !== $user->id)
                                         <td class="py-2 px-4">
                                             <form action="{{ route('company.fire', $user->id) }}" method="POST"
@@ -75,6 +83,7 @@
             </div>
         </div>
 
+        <!-- Mostrar solicitudes de ingreso si el usuario es el boss -->
         @if (Auth::user()->hasRole('boss'))
             <div class="mt-10 bg-gray-100 p-4 rounded shadow">
                 <h3 class="text-lg font-semibold mb-3">Solicitudes de ingreso</h3>
@@ -98,14 +107,18 @@
 
             </div>
         @endif
+
+        <!-- Botón para eliminar la empresa -->
+        @if (Auth::user()->hasRole('boss'))
         <form action="{{ route('company.destroy', $company->id) }}" method="POST"
-                    onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta empresa? Esta acción no se puede deshacer.');"
-                    class="inline-block ml-2">
-                    @csrf
-                    @method('DELETE')
-                    <button class="bg-red-600 text-white my-8 px-4 py-2 rounded hover:bg-red-800">
-                        Eliminar Empresa
-                    </button>
-                </form>
+            onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta empresa? Esta acción no se puede deshacer.');"
+            class="inline-block ml-2">
+            @csrf
+            @method('DELETE')
+            <button class="bg-red-600 text-white my-8 px-4 py-2 rounded hover:bg-red-800">
+                Eliminar Empresa
+            </button>
+        </form>
+        @endif
     </div>
 </x-app-layout>

@@ -55,7 +55,7 @@ class Model3dSeeder extends Seeder
                 ]);
             }
         } else {
-            $this->command->error("El archivo models.json no existe en la ruta: $jsonPath");
+            $this->command->error("The file models.json isn't in the route: $jsonPath");
         }
     }
 }

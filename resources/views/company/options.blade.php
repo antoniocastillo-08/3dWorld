@@ -1,18 +1,32 @@
 <x-app-layout>
+
+    <!-- Opciones para crear o unirse a una empresa -->
     <div class="container mx-auto py-10">
         <h1 class="text-2xl font-bold mb-6">Choose Your Company Option</h1>
 
+        <!-- Mostrar mensaje de éxito si existe -->
         @if (session('success'))
             <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)" x-show="show" x-transition
                 class="fixed top-6 right-6 bg-green-100 text-green-800 px-6 py-4 rounded-lg shadow-md z-50">
                 {{ session('success') }}
             </div>
         @endif
+
+        <!-- Mostrar mensaje de error si la empresa no existe -->
+        @if (session('company_name'))
+            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)" x-show="show" x-transition
+                class="fixed top-6 right-6 bg-red-100 text-red-800 px-6 py-4 rounded-lg shadow-md z-50">
+                {{ session('company_name') }}
+            </div>
+        @endif
+
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- Crear una empresa -->
             <div class="bg-white p-6 rounded-lg shadow">
                 <h2 class="text-lg font-semibold mb-4">Create a Company</h2>
-                <a href="{{ route('company.create') }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
+                <a href="{{ route('company.create') }}"
+                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700">
                     Create Company
                 </a>
             </div>

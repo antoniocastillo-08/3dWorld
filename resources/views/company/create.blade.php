@@ -1,4 +1,5 @@
 <x-app-layout>
+    
     <!-- Formulario para la creación de una empresa -->
     <div class="container mx-auto py-10">
         <h1 class="text-2xl font-bold mb-6">Create a Company</h1>

@@ -2,6 +2,7 @@
 @section('title', 'Personalizar Impresora')
 @section('content')
 <div class="container mx-auto px-4 py-6 max-w-3xl">
+    <!--Características de la Impresora añadida-->
     <h1 class="text-2xl font-bold mb-4">Characteristics</h1>
 
     <form action="{{ route('printers.attach') }}" method="POST" class="bg-white shadow-md rounded-lg p-6">

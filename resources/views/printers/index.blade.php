@@ -1,6 +1,7 @@
 @extends('app')
 @section('title', 'Printers')
 @section('content')
+    <!--Indice de todas las Impresoras-->
     <div class="flex flex-wrap justify-between gap-4 mx-4 mt-4 mb-6">
         <a href="/filaments" class="bg-green-600 text-white px-5 py-3 rounded hover:bg-green-700 text-sm">
             Add Filaments
@@ -9,12 +10,15 @@
             Add print
         </a>
 
+        <!--Mensaje de Exito -->
         @if (session('success'))
             <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)" x-show="show" x-transition
                 class="fixed top-6 right-6 bg-green-100 text-green-800 px-6 py-4 rounded-lg shadow-md z-50">
                 {{ session('success') }}
             </div>
         @endif
+
+        <!--Mensaje de Error -->
         @if (session('error'))
             <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)" x-show="show" x-transition
                 class="fixed top-6 right-6 bg-red-100 text-red-800 px-6 py-4 rounded-lg shadow-md z-50">
@@ -24,6 +28,7 @@
 
     </div>
 
+    <!-- Lista de Impresoras -->
     <div
         class="container bg-gradient-to-b from-white to-gray-200 py-16 md:py-36 px-4 mx-auto my-8 border border-gray-400 rounded-lg shadow-lg">
         @if ($printers->isEmpty())
@@ -54,6 +59,7 @@
         @endif
     </div>
 
+    <!-- Tabla de filamentos -->
     <div class="flex flex-col items-center mx-4">
         <div class="overflow-x-auto w-full max-w-screen-lg">
             <table class="table-auto border border-gray-300 w-full text-sm text-center">
@@ -123,6 +129,7 @@
             </table>
         </div>
 
+        <!-- Botón para editar los filamentos -->
         <div class="w-full max-w-screen-lg my-5 text-right px-2">
             @if ($filaments->isNotEmpty())
                 <a href="{{ route('filaments.edit') }}"
@@ -133,6 +140,7 @@
         </div>
     </div>
 
+    <!-- Botón para hacer a tabla editable-->
     <script>
         document.getElementById('edit-button')?.addEventListener('click', function () {
             document.querySelectorAll('.view-mode').forEach(el => el.classList.add('hidden'));

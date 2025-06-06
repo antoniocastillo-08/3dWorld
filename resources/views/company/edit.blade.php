@@ -1,4 +1,6 @@
 <x-app-layout>
+
+    <!-- Formulario para la edición de una empresa -->
     <div class="container mx-auto py-10">
         <h1 class="text-2xl font-bold mb-6">Edit {{ $company->name }}</h1>
 

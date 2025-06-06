@@ -1,8 +1,9 @@
 @extends('app')
 @section('title', 'Edit My Printer')
 @section('content')
-    <div
-        class="container bg-gradient-to-b from-white to-gray-200 py-20 mx-auto my-8 px-4 text-xl border border-gray-400 rounded-lg shadow-lg">
+<!-- Vista de la impresora de una workstation-->
+<div class="container bg-gradient-to-b from-white to-gray-200 py-20 mx-auto my-8 px-4 text-xl border border-gray-400 rounded-lg shadow-lg">
+        <!-- Mensajes de sesión -->
         <div class="flex justify-around items-center mb-8">
             @if (session('error'))
                 <div id="error-message" class="bg-red-100 text-red-800 px-4 py-2 rounded mb-4">
@@ -41,13 +42,14 @@
             @csrf
             @method('PUT')
 
-            <!-- Campos del formulario -->
+            <!-- Nombre de la Impresora -->
             <div class="mb-4">
                 <label for="name" class="block text-sm font-medium text-gray-700">Printer Name</label>
                 <input type="text" name="name" id="name" value="{{ $userPrinter->name }}"
                     class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
             </div>
 
+            <!-- Estado de la Impresora -->
             <div class="mb-6">
                 <label class="block text-sm font-medium text-gray-700 mb-2 text-center md:text-left">Status</label>
                 <input type="hidden" name="status" id="status" value="{{ $userPrinter->status }}">
@@ -71,7 +73,7 @@
                 </div>
             </div>
 
-
+            <!-- Tamaño de la boquilla -->
             <div class="mb-4">
                 <label for="nozzle_size" class="block text-sm font-medium text-gray-700">Nozzle Size (mm)</label>
                 <input type="number" name="nozzle_size" id="nozzle_size" value="{{ $userPrinter->nozzle_size }}" step="0.1"
@@ -90,7 +92,7 @@
 
         </form>
 
-
+        <!-- Tabla de filamentos cargados -->
         <h2 class="text-xl font-bold mb-4">Loaded Filaments</h2>
         <table class="table-auto border border-gray-300 w-full text-sm text-center">
             <thead class="bg-gray-100">
@@ -135,6 +137,7 @@
             </tbody>
         </table>
 
+        <!-- Notas de la impresora -->
         <div class="mt-12">
             <h2 class="text-2xl font-bold mb-4">📝 Printer Notes</h2>
 
@@ -159,6 +162,7 @@
                     Filaments
                 </button>
 
+                <!-- Botón para eliminar la impresora -->
                 <form action="{{ route('printers.destroy', $userPrinter->id) }}" method="POST"
                     onsubmit="return confirm('Are you sure you want to delete this printer?');">
                     @csrf
@@ -175,7 +179,7 @@
 
         </div>
 
-
+        <!-- Tabla de filamentos disponibles -->
         <div id="filamentsTable" class="hidden mt-8">
             <h2 class="text-xl font-bold mb-4">Available Filaments</h2>
 

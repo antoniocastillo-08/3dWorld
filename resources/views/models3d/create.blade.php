@@ -2,6 +2,7 @@
 @section('title', 'Crear 3D Model')
 
 @section('content')
+    {{-- Vista para crear un modelo 3D --}}
     <div class="max-w-2xl mx-auto p-6 bg-white dark:bg-gray-800 shadow-lg rounded-xl mt-6">
         <h1 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Create Model 3D</h1>
 

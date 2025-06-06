@@ -1,12 +1,14 @@
 @extends('app')
 @section('title', 'Printers')
 @section('content')
+    <!-- Catálogo de Impresoras -->
     <div class="container mx-auto px-4 py-6 max-w-5xl"> 
         <h1 class="text-2xl font-bold mb-4">Printers's List</h1>
 
         @if ($printersByBrand->isEmpty())
             <p class="text-red-700">Error: NO PRINTERS</p>
         @else
+            <!-- Agrupar impresoras por marca -->
             @foreach ($printersByBrand as $brand => $printers)
                 <div class="mb-6">
                     <h2 class="text-3xl font-semibold text-gray-800 mb-2">{{ $brand }}</h2>

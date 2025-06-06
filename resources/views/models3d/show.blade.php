@@ -31,6 +31,8 @@
                     </button>
                 </form>
             </div>
+
+            <!-- Autor del modelo -->
             <h2 class="text-lg font-mono text-gray-600">
                 Created by:
                 @if ($model->author)

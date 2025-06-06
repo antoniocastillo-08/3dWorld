@@ -1,6 +1,9 @@
 @extends('app')
 @section('title', 'Filaments')
 @section('content')
+
+    {{-- Vista para añadir filamentos al espacio de trabajo --}}
+    
     <div class="max-w-3xl mx-auto py-10">
         <h1 class="text-2xl font-bold mb-6">Add New Filament</h1>
 

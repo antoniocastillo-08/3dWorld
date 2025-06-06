@@ -16,10 +16,10 @@
 </head>
 <body class="font-sans text-gray-900 antialiased bg-gradient-to-l from-white to-violet-950">
 
+    <!--Fondo para el login-->
     <div class="min-h-screen flex flex-col md:flex-row">
         <!-- Imagen (solo visible en pantallas medianas o más grandes) -->
         <div class="hidden md:flex w-1/2 items-center justify-center bg-cover bg-center" style="background-image: url('/images/login_image.jpg');">
-            <!-- Puedes poner algo adicional aquí si quieres -->
         </div>
 
         <!-- Login -->

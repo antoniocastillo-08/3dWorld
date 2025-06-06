@@ -24,7 +24,7 @@ class PrinterSeeder extends Seeder
           Printer::create($printer);
       }
     } else {
-      $this->command->error("El archivo printers.json no existe en la ruta: $jsonPath");
+      $this->command->error("The file printers.json isn't in the route: $jsonPath");
     }
     }
 } 

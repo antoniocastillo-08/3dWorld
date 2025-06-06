@@ -136,8 +136,9 @@ class CompanyController extends Controller
         $company = Company::where('name', $request->company_name)->first();
 
         if (!$company) {
-            return back()->withErrors(['company_name' => 'Company not found.']);
+            return back()->with('company_name', 'Company not found.');
         }
+
 
         JoinRequest::firstOrCreate([
             'user_id' => Auth::id(),
