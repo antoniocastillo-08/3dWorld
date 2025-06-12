@@ -31,3 +31,53 @@ Aplicación web desarrollada como Trabajo de Fin de Grado para la gestión integ
 
 ## 🧭 Estructura general
 
+├── app/
+│ ├── Http/
+│ ├── Models/
+│ ├── Policies/
+│ └── ...
+├── resources/
+│ ├── js/ → Componentes Vue.js
+│ └── views/ → Plantillas Blade para Inertia
+├── database/
+│ ├── migrations/
+│ └── seeders/
+├── routes/
+│ └── web.php
+├── public/
+├── vite.config.js
+└── ...
+
+bash
+Copiar
+Editar
+
+## 🛠️ Requisitos
+
+- PHP >= 8.2
+- Composer
+- Node.js y npm
+- MySQL
+- Laravel CLI
+
+## 🧪 Instalación
+
+```bash
+git clone https://github.com/tuusuario/3dWorld.git
+cd 3dWorld
+
+# Instalar dependencias backend
+composer install
+
+# Instalar dependencias frontend
+npm install && npm run build
+
+# Configurar entorno
+cp .env.example .env
+php artisan key:generate
+
+# Crear la base de datos y correr migraciones
+php artisan migrate --seed
+
+# Levantar servidor
+php artisan serve
